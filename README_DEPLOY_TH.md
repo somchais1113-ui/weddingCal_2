@@ -1,35 +1,34 @@
-# Wedding Fabric Studio V2 — ชุดพร้อมเผยแพร่ GitHub Pages (ไม่ต้อง Build)
+# Wedding Fabric Studio V3.1 — One-File Fix
 
-**แพ็กเกจนี้ใช้งานได้โดยไม่ต้อง npm, React, Vite, GitHub Actions หรือ CDN** สามารถใช้กับเว็บโฮสต์ที่เสิร์ฟไฟล์ HTML/CSS/JS ปกติได้
+## ปัญหาที่ V3.1 แก้
 
-## วิธีอัปโหลดขึ้น GitHub Pages (แนะนำ)
+V3 เดิมใช้ `index.html` อ้างอิง `./assets/style.css` และ `./assets/app.js` ซึ่งนำเข้าไฟล์ `engine.js`, `project.js`, `renderer.js` อีกทอดหนึ่ง หากไฟล์โฟลเดอร์ `assets/` ไม่ได้ถูกอัปโหลด หรือพาธผิด เว็บจะไม่มี UI ตามแบบและตัวเลขจะไม่อัปเดต
 
-1. แตก ZIP `Wedding_Fabric_Studio_V2_STATIC_Ready.zip` จะเห็น `index.html` และโฟลเดอร์ `assets/` อยู่ด้านใน
-2. เปิด github.com → กด **New repository** ตั้งชื่อ `wedding-fabric-studio-v2` (แนะนำให้ใช้ Repo ใหม่ แยกจาก `weddingCal`)
-3. อัปโหลด **ทั้งโครงสร้าง** ลงที่ **Root ของ Repository**: ต้องเห็น `index.html` ที่ Root และ `assets/app.js`, `assets/engine.js`, `assets/renderer.js`, `assets/style.css` อยู่ภายในโฟลเดอร์ `assets`
-   - ถ้า GitHub Web ทำให้โฟลเดอร์หาย ให้ใช้ GitHub Desktop แล้วลากโฟลเดอร์โปรเจกต์เข้ามาและ Commit/Push
-4. ไปที่ **Settings → Pages → Build and deployment**
-5. เลือก `Source = Deploy from a branch`, `Branch = main`, `Folder = / (root)` แล้วกด Save
-6. รอการเผยแพร่ในแท็บ **Actions** แล้วเปิด `https://USERNAME.github.io/wedding-fabric-studio-v2/`
+V3.1 รวม CSS, Calculation Engine, Layer Renderer และ App UI ไว้ภายใน `index.html` เดียว ไม่มีไฟล์ assets หรือ CDN ที่จำเป็นในการเปิดเว็บ
 
-**อย่าเลือก Source = GitHub Actions สำหรับ ZIP ชุด Static นี้** เพราะเราไม่ได้ส่ง Workflow มาให้ และไม่จำเป็นต้อง Build
+## อัปเดตเว็บบน GitHub Pages
 
-## เช็กเมื่อเว็บเป็นหน้าขาว
+1. เปิด Repository ที่เผยแพร่หน้าเว็บ Wedding Fabric Studio อยู่
+2. เลือก **Code > Add file > Upload files** หรือแก้ไฟล์ `index.html` เดิม โดยนำ `index.html` จาก ZIP นี้ไปแทนไฟล์ที่ ROOT ของ Repository (ต้องชื่อ index.html ตัวพิมพ์เล็ก)
+3. Commit changes ไปยัง `main` (หากคุณ Deploy จาก branch อื่น ให้ Commit ไปยัง branch ที่ตั้งค่า Pages ไว้)
+4. เปิด **Settings > Pages**: สำหรับไฟล์เดียวนี้ เลือก `Deploy from a branch` / `main` / `/(root)` แล้ว Save หากเดิมใช้ GitHub Actions ไม่จำเป็นต้องใช้ในรุ่นนี้
+5. รอให้ Pages เผยแพร่เวอร์ชันใหม่ แล้ว Refresh แบบไม่ใช้ cache บน Mac: `Command + Shift + R` หรือเติม `?v=31` ต่อท้าย URL เช่น `https://USERNAME.github.io/REPO/?v=31`
 
-- Root ต้องมี `index.html` ไม่ใช่ ZIP file
-- Root ต้องมีโฟลเดอร์ `assets` ที่มี 4 ไฟล์ดังกล่าว
-- ใน Browser Developer Tools → Network ตรวจว่า `assets/app.js`, `assets/engine.js` และ `assets/renderer.js` โหลดได้ (HTTP 200)
-- GitHub Pages URL ต้องมีชื่อ Repository ครบ
+> ไม่ต้องอัปโหลดทั้งโฟลเดอร์ที่หุ้ม ZIP และไม่ต้องติดตั้ง npm, ไม่ต้องใช้ React/Vite Build หรือ GitHub Actions
 
-## พื้นฐานทางวิศวกรรม
+> ลบ `assets/` เก่าได้หลังยืนยัน V3.1 ทำงานแล้วเท่านั้น (ไฟล์ V3.1 ไม่ได้ใช้งานโฟลเดอร์นี้)
 
-- สูตรคำนวณเดียวกับ React Source (`assets/engine.js`) และทดสอบ Node.js 7 กรณีผ่าน
-- 3D preview ของ **Static Edition** ใช้การฉาย parametric geometry บน Canvas 2D ด้วย JavaScript ล้วน เพื่อให้เผยแพร่ได้โดยไม่ต้อง Build
-- React Source Edition อีกชุดใช้ **React Three Fiber / Three.js** ตามบรีฟ ซึ่งรองรับการพัฒนาต่อและการเรนเดอร์ด้วย WebGL
-- ภาพพรีวิวไม่ได้ทำ physics simulation ผ้าจริง
-- ประวัติใช้ localStorage ใน Browser เครื่องปัจจุบัน ไม่มี backend
-- มี 2 ส่วนใน Phase 1 ได้แก่ Backdrop และ Ceiling Swag เท่านั้น
+## ตรวจรับเร็ว ๆ
 
-## ตัวอย่างผลลัพธ์
+- เห็นส่วนตั้งค่าด้านซ้ายและพื้นที่แสดงผลผ้าทางขวาเป็นการ์ด มีพื้นหลังและระยะห่างครบ
+- มีภาพผ้าซ้อน 2 สีใน Preview ที่หมุนหรือซูมได้
+- ค่าตัวอย่าง: **28.50 เมตร** รวมราคา **฿2,962.50**
+- แก้ราคาผ้าหลักจาก 95 เป็น 105 บาท/เมตร ยอดรวมควรเปลี่ยนเป็น **฿3,162.50**
+- สลับแท็บภาพอ้างอิงและอัปโหลด JPG/PNG/WEBP ได้
 
-ฉากหลัง 500 × 250 ซม., หน้าผ้า 150 ซม., จีบ 2 เท่า → 7 ผืน → ทฤษฎี 17.50 เมตร → รวม Buffer 12% เป็น 19.60 เมตร → สั่งซื้อปัดขึ้นครั้งละ 0.5 ม. เป็น 20.00 เมตร
+## ข้อจำกัด
+
+- การวัดจากภาพ 2D จำเป็นต้องมีขนาดอ้างอิงในโลกจริง ไม่ใช่ระบบ AI ที่อนุมานสเกล/ความลึกจากภาพเดียวได้
+- ภาพ Preview เป็น Parametric Canvas Renderer ไม่ใช่ Physics Simulation
+- ยังไม่ได้ทดสอบ URL ของ GitHub Pages ของคุณโดยตรง เนื่องจากยังไม่มีลิงก์ของ V3 ที่ใช้งานอยู่
+- ข้อมูลโปรเจกต์ Draft เก็บบน browser storage ของแต่ละเบราว์เซอร์; สำหรับข้ามเครื่องให้ Export JSON
