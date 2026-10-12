@@ -1,10 +1,11 @@
 {
-  "timestamp": "2026-10-12T08:29:02.274Z",
+  "timestamp": "2026-10-12T09:34:19.265Z",
   "status": "passed",
   "files": [
     ".nojekyll",
     "examples/calibration-ground-truth.json",
     "examples/default-project.json",
+    "examples/person-scale.png",
     "examples/reference-front.png",
     "examples/reference-oblique.png",
     "examples/traced-project.json",
