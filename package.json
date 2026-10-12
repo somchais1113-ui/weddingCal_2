@@ -1,0 +1,9 @@
+{
+  "name": "wedding-fabric-studio-v3-static",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"test":"node --test tests/core.test.mjs"},
+  "description": "Static wedding drape layer design, photo measurements and cost calculator; no external dependencies",
+  "license": "UNLICENSED"
+}

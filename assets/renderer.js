@@ -1,99 +1,96 @@
 import { solveCatenary } from './engine.js';
 
-export class FabricRenderer {
- constructor(canvas) {
-  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.angle=0.30;this.pitch=.18;this.zoom=1;
-  this.model=null;this.data=null;this.dragged=false;
-  canvas.addEventListener('pointerdown',e=>{this.dragged=true;this.lastX=e.clientX;this.lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
-  canvas.addEventListener('pointermove',e=>{if(!this.dragged)return;this.angle+=(e.clientX-this.lastX)*0.008;this.pitch=Math.max(-.3,Math.min(.65,this.pitch+(e.clientY-this.lastY)*0.006));this.lastX=e.clientX;this.lastY=e.clientY;this.draw();});
-  canvas.addEventListener('pointerup',()=>{this.dragged=false;});
-  canvas.addEventListener('pointercancel',()=>{this.dragged=false;});
-  canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.min(2.5,Math.max(.45,this.zoom*Math.exp(-e.deltaY*.001)));this.draw();},{passive:false});
-  window.addEventListener('resize',()=>this.draw());
- }
- set(model,data){this.model=model;this.data=data;this.draw();}
- project([x,y,z],width,height,scale,refH){
-  const cos=Math.cos(this.angle), sin=Math.sin(this.angle);
-  const cx=x*cos-z*sin, cz=x*sin+z*cos;
-  const cp=Math.cos(this.pitch), sp=Math.sin(this.pitch);
-  const cy=(y-refH)*cp-cz*sp, depth=(y-refH)*sp+cz*cp;
-  const distortion=Math.max(.57,1-depth/(Math.max(width,height)/2+8));
-  return [width/2+cx*scale/distortion, height*.56-cy*scale/distortion,depth];
- }
- draw(){
-  if(!this.ctx || !this.model || !this.data)return;
-  const {canvas,ctx,model,data}=this;const box=canvas.getBoundingClientRect();if(box.width===0||box.height===0)return;
-  const dpr=Math.min(2,window.devicePixelRatio||1);const w=Math.floor(box.width*dpr),h=Math.floor(box.height*dpr);
-  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
-  ctx.setTransform(dpr,0,0,dpr,0,0); const W=box.width,H=box.height;
-  const background=ctx.createLinearGradient(0,0,0,H);background.addColorStop(0,'#eaf1f7');background.addColorStop(1,'#f6f8fa');ctx.fillStyle=background;ctx.fillRect(0,0,W,H);
-  const dim=model.inputs.dimensions;
-  const isBackdrop=model.type==='backdrop';
-  const span=(isBackdrop?dim.backdropWidth:dim.spanDistance*dim.numberOfSwags)/100;
-  const height=(isBackdrop?dim.backdropHeight:Math.max(260,dim.sagDepth+160))/100;
-  const scale=Math.min(W/(Math.max(5,span)*1.45),H/(Math.max(3.2,height)*1.4))*this.zoom;
-  const refH=height/2;
-  const p=pt=>this.project(pt,W,H,scale,refH);
-  // Architectural floor grid with perspective projection.
-  ctx.lineWidth=.7;ctx.strokeStyle='#d4dee8';ctx.globalAlpha=.74;
-  for(let i=-10;i<=10;i++){this.stroke(ctx,p([i*.5,0,-3]),p([i*.5,0,3]));this.stroke(ctx,p([-5,0,i*.3]),p([5,0,i*.3]));}
-  ctx.globalAlpha=1;
-  const fabricRgb=this.parseHex(model.sceneParams.color);
-  const mesh=[];
-  const addSurface=(grid,nx,ny)=>{
-   for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){
-    const a=grid[j*(nx+1)+i],b=grid[j*(nx+1)+i+1],c=grid[(j+1)*(nx+1)+i],d=grid[(j+1)*(nx+1)+i+1];
-    mesh.push([a,c,b]);mesh.push([b,c,d]);
-   }
-  };
-  if(isBackdrop){
-    const panels=Math.min(data.result.panelCount,90);const width=span/panels;const amp=width*.14*Math.min(2.2,Math.max(.3,model.inputs.fullnessRatio/2));
-    const X=18,Y=34;
-    for(let panel=0;panel<panels;panel++){
-      const grid=[];
-      for(let j=0;j<=Y;j++)for(let i=0;i<=X;i++){
-       const u=i/X,v=j/Y;
-       grid.push([-span/2+width*(panel+u),height*v,.035+amp*Math.sin(u*7*Math.PI)*(0.14+.86*(1-v)**.7)]);
+const rgb=color=>{const hex=/^#[0-9a-f]{6}$/i.test(color)?color:'#a4bed6';return [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));};
+export class LayeredRenderer {
+  constructor(canvas){
+    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.angle=0.17;this.pitch=0.10;this.zoom=1;
+    this.projectData=null;this.dragging=false;
+    canvas.addEventListener('pointerdown',e=>{this.dragging=true;this.lx=e.clientX;this.ly=e.clientY;canvas.setPointerCapture(e.pointerId);});
+    canvas.addEventListener('pointermove',e=>{if(!this.dragging)return;this.angle=Math.max(-.7,Math.min(.7,this.angle+(e.clientX-this.lx)*.006));this.pitch=Math.max(-.28,Math.min(.52,this.pitch+(e.clientY-this.ly)*.004));this.lx=e.clientX;this.ly=e.clientY;this.draw();});
+    canvas.addEventListener('pointerup',()=>{this.dragging=false;});canvas.addEventListener('pointercancel',()=>{this.dragging=false;});
+    canvas.addEventListener('wheel',e=>{e.preventDefault();this.zoom=Math.max(.55,Math.min(2.8,this.zoom*Math.exp(-e.deltaY*.001)));this.draw();},{passive:false});
+    window.addEventListener('resize',()=>this.draw());
+  }
+  set(project){this.projectData=project;this.draw();}
+  resetCamera(){this.angle=.17;this.pitch=.1;this.zoom=1;this.draw();}
+  project([x,y,z],W,H,scale,centerH){
+    const co=Math.cos(this.angle),si=Math.sin(this.angle),cx=x*co-z*si,cz=x*si+z*co;
+    const cp=Math.cos(this.pitch),sp=Math.sin(this.pitch),cy=(y-centerH)*cp-cz*sp,dep=(y-centerH)*sp+cz*cp;
+    const distortion=Math.max(.67,Math.min(1.6,1-dep*.028));
+    return [W/2+cx*scale/distortion,H*.57-cy*scale/distortion,dep];
+  }
+  draw(){
+    const {canvas,ctx,projectData:project}=this;if(!ctx||!project)return;
+    const bounds=canvas.getBoundingClientRect();if(bounds.width<20||bounds.height<20)return;
+    const dpr=Math.min(2,window.devicePixelRatio||1),W=bounds.width,H=bounds.height;
+    const pixelW=Math.round(W*dpr),pixelH=Math.round(H*dpr);
+    if(canvas.width!==pixelW||canvas.height!==pixelH){canvas.width=pixelW;canvas.height=pixelH;}
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#e9f0f7');bg.addColorStop(.64,'#f4f7fb');bg.addColorStop(1,'#fff');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    const visible=project.layers.filter(l=>l.visible!==false);if(!visible.length)return;
+    const backdrop=project.type==='backdrop';
+    const extents=visible.map(l=>backdrop?[(Number(l.widthCm)+Math.abs(Number(l.xOffsetCm))*2)/100,Number(l.heightCm)/100]:
+      [(Number(l.spanCm)*Number(l.swags)+Math.abs(Number(l.xOffsetCm))*2)/100,Math.max(270,Number(l.sagCm)+180)/100]);
+    const maxW=Math.max(4,...extents.map(a=>a[0]));const maxH=Math.max(2.5,...extents.map(a=>a[1]));
+    const scale=Math.min(W/(maxW*1.45),H/(maxH*1.58))*this.zoom;
+    const P=pt=>this.project(pt,W,H,scale,maxH/2);
+    ctx.lineWidth=.7;ctx.strokeStyle='#cfdce8';ctx.globalAlpha=.66;
+    for(let i=-11;i<=11;i++){this.stroke(ctx,P([i*.5,0,-4]),P([i*.5,0,4]));this.stroke(ctx,P([-6,0,i*.4]),P([6,0,i*.4]));}
+    ctx.globalAlpha=1;
+    // Back-to-front canvas painter's algorithm: each drape mesh has its own independent material.
+    for(let li=0;li<visible.length;li++){
+      const l=visible[li],z=(Number(l.depthCm)||0)/100+li*.015,
+        xShift=(Number(l.xOffsetCm)||0)/100,color=rgb(l.color),opacity=Math.max(.05,Math.min(1,(Number(l.opacity)||100)/100));
+      const triangles=[];
+      const surface=(grid,nx,ny)=>{
+        for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){
+          const a=grid[y*(nx+1)+x],b=grid[y*(nx+1)+x+1],c=grid[(y+1)*(nx+1)+x],d=grid[(y+1)*(nx+1)+x+1];
+          triangles.push([a,c,b],[b,c,d]);
+        }
+      };
+      let width,top;
+      if(backdrop){
+        width=l.widthCm/100;const height=l.heightCm/100;top=height;
+        const panels=Math.min(28,Math.max(1,Math.ceil(l.widthCm*l.fullness/l.fabricWidth)));
+        const pw=width/panels;
+        for(let j=0;j<panels;j++){
+          const nx=10,ny=25,grid=[];
+          for(let iy=0;iy<=ny;iy++)for(let ix=0;ix<=nx;ix++){
+            const u=ix/nx,v=iy/ny,fold=Math.sin(u*Math.PI*5+.3)*pw*.22*Math.min(2.4,l.fullness)/2;
+            grid.push([xShift-width/2+pw*(j+u),height*v,z+fold*(.18+.82*(1-v)**.72)]);
+          }
+          surface(grid,nx,ny);
+        }
+      } else {
+        const span=l.spanCm/100,swags=Math.min(24,l.swags),sag=l.sagCm/100;
+        width=span*swags;top=Math.max(maxH-.30,sag+.65);
+        const cat=solveCatenary(l.spanCm,l.sagCm),edge=Math.cosh(cat.t);
+        for(let j=0;j<swags;j++){
+          const nx=44,ny=9,grid=[];
+          for(let iy=0;iy<=ny;iy++)for(let ix=0;ix<=nx;ix++){
+            const u=ix/nx,v=iy/ny,drop=l.sagCm===0?0:cat.a*(Math.cosh((u-.5)*l.spanCm/cat.a)-edge)/100;
+            grid.push([xShift-width/2+(j+u)*span,top+drop+.045*Math.sin(v*10*Math.PI)*Math.sin(u*Math.PI),z+(v-.5)*l.fabricWidth/100]);
+          }
+          surface(grid,nx,ny);
+        }
       }
-      addSurface(grid,X,Y);
-    }
-  }else{
-    const count=dim.numberOfSwags,X=48,Y=14,spread=model.inputs.fabricWidth/100;
-    const top=height-.10;
-    const catenary=solveCatenary(dim.spanDistance,dim.sagDepth);
-    const edgeCosh=dim.sagDepth===0?0:Math.cosh((dim.spanDistance/2)/catenary.a);
-    for(let n=0;n<count;n++){
-      const grid=[];
-      for(let j=0;j<=Y;j++)for(let i=0;i<=X;i++){
-        const u=i/X,v=j/Y;
-        grid.push([-span/2+(n+u)*dim.spanDistance/100,top+(dim.sagDepth===0?0:catenary.a*(Math.cosh((u-.5)*dim.spanDistance/catenary.a)-edgeCosh)/100) + .05*Math.sin(v*18*Math.PI)*Math.sin(u*Math.PI), (v-.5)*spread]);
+      const faces=[];
+      for(const t of triangles){
+        const [a,b,c]=t.map(P),u=t[1].map((n,i)=>n-t[0][i]),v=t[2].map((n,i)=>n-t[0][i]);
+        const normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]],mag=Math.hypot(...normal)||1;
+        const diff=Math.abs((normal[0]*.37+normal[1]*.68+normal[2]*.74)/mag),tone=.67+diff*.43;
+        faces.push({a,b,c,dep:(a[2]+b[2]+c[2])/3,fill:`rgb(${color.map(n=>Math.round(Math.min(255,n*tone))).join(',')})`});
       }
-      addSurface(grid,X,Y);
+      faces.sort((a,b)=>a.dep-b.dep);
+      ctx.globalAlpha=opacity;ctx.lineWidth=.35;
+      for(const f of faces){ctx.fillStyle=f.fill;ctx.strokeStyle=f.fill;ctx.beginPath();ctx.moveTo(f.a[0],f.a[1]);ctx.lineTo(f.b[0],f.b[1]);ctx.lineTo(f.c[0],f.c[1]);ctx.closePath();ctx.fill();ctx.stroke();}
+      ctx.globalAlpha=1;
+      if(li===0){
+        ctx.strokeStyle='#9dabb9';ctx.lineWidth=3;ctx.lineCap='round';
+        this.stroke(ctx,P([xShift-width/2-.08,top+.075,z-.06]),P([xShift+width/2+.08,top+.075,z-.06]));
+        if(backdrop){ctx.strokeStyle='#b0bdc8';ctx.lineWidth=2;this.stroke(ctx,P([xShift-width/2-.08,0,z-.06]),P([xShift-width/2-.08,top+.075,z-.06]));this.stroke(ctx,P([xShift+width/2+.08,0,z-.06]),P([xShift+width/2+.08,top+.075,z-.06]));}
+      }
     }
   }
-  const shaded=[];
-  for(const tri of mesh){
-   const a=p(tri[0]),b=p(tri[1]),c=p(tri[2]);
-   const ax=tri[1][0]-tri[0][0],ay=tri[1][1]-tri[0][1],az=tri[1][2]-tri[0][2];
-   const bx=tri[2][0]-tri[0][0],by=tri[2][1]-tri[0][1],bz=tri[2][2]-tri[0][2];
-   const nx=ay*bz-az*by,ny=az*bx-ax*bz,nz=ax*by-ay*bx;const n=Math.hypot(nx,ny,nz)||1;
-   const lambert=Math.abs((nx*.5+ny*.72+nz*.47)/n);
-   const tone=.70+lambert*.34;
-   const rgb=fabricRgb.map(v=>Math.max(0,Math.min(255,Math.round(v*tone))));
-   shaded.push({a,b,c,depth:(a[2]+b[2]+c[2])/3,fill:`rgb(${rgb.join(',')})`});
-  }
-  shaded.sort((a,b)=>a.depth-b.depth);
-  ctx.lineWidth=.4;
-  for(const f of shaded){ctx.fillStyle=f.fill;ctx.strokeStyle=f.fill;ctx.beginPath();ctx.moveTo(f.a[0],f.a[1]);ctx.lineTo(f.b[0],f.b[1]);ctx.lineTo(f.c[0],f.c[1]);ctx.closePath();ctx.fill();ctx.stroke();}
-  const drawBar=(a,b,color='#a3b0bd',line=4)=>{const A=p(a),B=p(b);ctx.lineCap='round';ctx.lineWidth=line;ctx.strokeStyle=color;this.stroke(ctx,A,B);};
-  if(isBackdrop){drawBar([-span/2-.08,height+.07,0],[span/2+.08,height+.07,0]);drawBar([-span/2-.08,0,0],[-span/2-.08,height+.07,0],'#c5ccd5',2);drawBar([span/2+.08,0,0],[span/2+.08,height+.07,0],'#c5ccd5',2);}
-  else{
-   const top=height-.10,one=dim.spanDistance/100;
-   for(let i=0;i<=dim.numberOfSwags;i++){
-    const x=-span/2+i*one;drawBar([x,0,0],[x,top,0],'#a6b2bc',2);drawBar([x,top,-model.inputs.fabricWidth/200-.10],[x,top,model.inputs.fabricWidth/200+.10],'#a6b2bc',2.5);
-   }
-  }
- }
- stroke(ctx,a,b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
- parseHex(s){const t=s.replace('#','');return [0,2,4].map(p=>parseInt(t.slice(p,p+2),16));}
+  stroke(ctx,a,b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
 }
