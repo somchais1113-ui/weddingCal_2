@@ -25,7 +25,7 @@ export class Renderer{
   img.onerror=()=>{this.personLoading=false;};
   img.src=path;
  }
- set(p,selected){this.project=p;this.selected=selected;this.ensurePersonAsset(p?.render?.personAsset);this.draw();}
+ set(p,selected){this.project=p;this.selected=selected;this.ensurePersonAsset(p?.render?.personAsset||'./examples/person-scale.png');this.draw();}
  view(name){this.camera=name;this.angle=name==='side'?Math.PI/2:name==='perspective'?-.18:0;this.pitch=name==='top'?Math.PI/2:name==='perspective'?.08:0;this.pan=[0,0];this.zoom=1;this.draw();}
  projectPoint([x,y,z]){
   const {width,height}=this.project,co=Math.cos(this.angle),si=Math.sin(this.angle),cp=Math.cos(this.pitch),sp=Math.sin(this.pitch),cx=x*co+z*si,cz=-x*si+z*co,yy=y-height/2,cy=yy*cp+cz*sp,depth=-yy*sp+cz*cp;

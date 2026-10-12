@@ -1,5 +1,5 @@
 import {rectifyImage} from './calibration.js';
-import {outlineAt,clamp,bezier} from './geometry.js';
+import {outlineAt,clamp,bezier,subdivideBezierAnchors} from './geometry.js';
 export async function imageFromUrl(url){const img=new Image();await new Promise((res,rej)=>{img.onload=res;img.onerror=()=>rej(new Error('ไม่สามารถเปิดภาพนี้ได้'));img.src=url;});return img;}
 export async function readImage(file){if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('รองรับ JPG, PNG และ WEBP เท่านั้น');if(file.size>16*1024*1024)throw new Error('ภาพต้องไม่เกิน 16 MB');const url=await new Promise((res,rej)=>{const reader=new FileReader();reader.onload=()=>res(reader.result);reader.onerror=rej;reader.readAsDataURL(file);});const img=await imageFromUrl(url);const c=document.createElement('canvas'),scale=Math.min(1,1800/Math.max(img.width,img.height));c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.92);}
 export class ReferenceEditor{
@@ -18,18 +18,10 @@ export class ReferenceEditor{
  fromScene(p){const l=this.layer,r=this.project.reference;return {x:(p.x*r.width-r.width/2-l.x+l.widthCm/2)/l.widthCm,y:(p.y*r.height-l.y)/l.heightCm};}
  subdivideActiveEdge(){
   if(!this.layer||this.layer.shape!=='trace')return false;
-  const edge=this.edge||'top',pts=this.layer.anchors[edge];
-  if(pts.length>=120)throw new Error('Anchor เต็มแล้ว (สูงสุด 120 จุดต่อเส้น)');
-  const next=[];
-  for(let i=0;i<pts.length-1;i++){
-   const a=pts[i],b=pts[i+1];
-   next.push(structuredClone(a));
-   if(next.length>=119)continue;
-   const mid=this.layer.curve==='bezier'?bezier(a,b,.5):{x:(a.x+b.x)/2,y:(a.y+b.y)/2};
-   next.push({x:mid.x,y:mid.y,role:edge==='top'?'hang':'release'});
-  }
-  next.push(structuredClone(pts[pts.length-1]));
-  this.layer.anchors[edge]=next.slice(0,120);
+  if(this.layer.curve!=='bezier')throw new Error('กรุณาเลือก Bézier ก่อนเพิ่มความละเอียด: Catenary จะต้องฟิตเส้นใหม่ ไม่ควรแบ่งจุดโดยเปลี่ยนความโค้งเดิม');
+  const edge=this.edge||'top';
+  this.layer.anchors[edge]=subdivideBezierAnchors(this.layer.anchors[edge]);
+  this.active=null;
   return true;
  }
  down(e){if(!this.image)return;this.canvas.focus();this.canvas.setPointerCapture(e.pointerId);if((e.shiftKey||e.button===1)&&this.box){this.drag={kind:'pan',x:e.clientX,y:e.clientY};return;}if(!this.box)return;const p=this.locate(e);if(p.x<0||p.x>1||p.y<0||p.y>1)return;

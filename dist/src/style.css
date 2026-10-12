@@ -29,3 +29,18 @@ label.field{font-size:12px;color:#55718d;font-weight:600}
  .trace-live{grid-template-columns:1fr 1fr}
  .refoptions label{width:auto;max-width:100%}
 }
+
+
+/* RC3 stronger section differentiation */
+.properties #properties>fieldset>.field-section:nth-of-type(1)::before{background:linear-gradient(180deg,#2f6ea6 0,#163e67 100%)}
+.properties #properties>fieldset>.field-section:nth-of-type(1) h3{background:#e6f0fb;color:#214d77}
+.properties #properties>fieldset>.field-section:nth-of-type(2)::before{background:linear-gradient(180deg,#49a37a 0,#2b6b53 100%)}
+.properties #properties>fieldset>.field-section:nth-of-type(2) h3{background:#eaf7f1;color:#2a664e}
+.properties #properties>fieldset>.field-section:nth-of-type(3)::before{background:linear-gradient(180deg,#db8b39 0,#9f5b1c 100%)}
+.properties #properties>fieldset>.field-section:nth-of-type(3) h3{background:#fff2e4;color:#8a531f}
+.properties #properties>fieldset>.field-section:nth-of-type(4)::before{background:linear-gradient(180deg,#8b69c5 0,#5c418d 100%)}
+.properties #properties>fieldset>.field-section:nth-of-type(4) h3{background:#f2ebfb;color:#5d4287}
+.properties #properties>fieldset>.field-section:nth-of-type(5)::before{background:linear-gradient(180deg,#c45e8d 0,#8b3961 100%)}
+.properties #properties>fieldset>.field-section:nth-of-type(5) h3{background:#fbeaf1;color:#8a355d}
+.field-section h3{box-shadow:inset 0 0 0 1px rgba(23,46,76,.04)}
+.workflow span.active{font-weight:700}

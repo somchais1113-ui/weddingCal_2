@@ -13,6 +13,20 @@ export function edgePoint(points,t,curve='bezier',sag=0){
   return {x:mix(a.x,b.x,u),y:mix(a.y,b.y,u)+cat.a*(Math.cosh(cat.t)-Math.cosh((u-.5)*span/cat.a))};
  }return bezier(a,b,u);
 }
+/** Split all cubic Bezier spans at t=.5 without changing their geometric path. */
+export function subdivideBezierAnchors(points){
+ if(!Array.isArray(points)||points.length<2||points.length*2-1>120)throw new Error('Anchor ต่อเส้นต้องมี 2–120 จุด');
+ const lerp=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
+ const output=[structuredClone(points[0])];
+ for(let i=0;i<points.length-1;i++){
+  const a=points[i],b=points[i+1],p01=lerp(a,a.out||a),p12=lerp(a.out||a,b.in||b),p23=lerp(b.in||b,b);
+  const p012=lerp(p01,p12),p123=lerp(p12,p23),m=lerp(p012,p123);
+  output[output.length-1].out=p01;
+  output.push({x:m.x,y:m.y,role:a.role||'hang',in:p012,out:p123});
+  const next=structuredClone(b);next.in=p23;output.push(next);
+ }
+ return output;
+}
 export function defaultAnchors(){return {top:[{x:0,y:0,role:'hang'},{x:1,y:0,role:'hang'}],bottom:[{x:0,y:1,role:'release'},{x:1,y:1,role:'release'}]};}
 export function outlineAt(layer,u){
  const w=layer.widthCm,h=layer.heightCm;

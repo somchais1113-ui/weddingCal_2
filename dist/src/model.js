@@ -12,13 +12,13 @@ function legacySteel(frame){if(!frame)return defaultSteel();const rows=[];for(co
 export function migrate(raw){
  if(!raw||!Array.isArray(raw.layers)||raw.layers.length<1||raw.layers.length>80)throw new Error('ไฟล์ต้องมี Layer 1–80 ชั้น');
  if(Number(raw.version)>6)throw new Error('โปรเจกต์นี้สร้างด้วยเวอร์ชันที่ใหม่กว่า');
- if(Number(raw.version)===6){const p=copy(raw);p.layers=p.layers.map(l=>newLayer(l));validateProject(p);return p;}
+ if(Number(raw.version)===6){const p=copy(raw);p.layers=p.layers.map(l=>newLayer(l));p.render={...newProject().render,...(p.render||{})};if(!p.render.personAsset)p.render.personAsset='./examples/person-scale.png';validateProject(p);return p;}
  const p=newProject();p.name=String(raw.name||'นำเข้าจาก V5');p.legacySource=copy(raw);p.width=Math.max(...raw.layers.map(l=>Number(l.widthCm)||500));p.height=Math.max(...raw.layers.map(l=>Number(l.heightCm)||270));
  p.layers=raw.layers.map((l,i)=>newLayer({...l,id:l.id||uid(),shape:'legacy',mode:raw.type||'backdrop',x:Number(l.xOffsetCm)||0,y:p.height-(Number(l.yOffsetCm)||0)-(Number(l.heightCm)||270),z:Number(l.depthCm)||0,band:i===0?'back':'middle',estimateMode:'legacy',legacyBuffers:raw.buffers||DEFAULT_PROJECT.buffers,legacyType:raw.type||'backdrop',legacyLayer:copy(l)}));
  p.increment=raw.increment||.5;p.laborCost=raw.laborCost||0;p.otherCost=raw.otherCost||0;p.steel.items=legacySteel(raw.frame);
  p.steel.accessories=[{id:uid(),name:'เพลทฐาน',quantity:raw.frame?.basePlateCount||0,price:raw.frame?.basePlatePrice||0}];
  if(typeof raw.referenceImage==='string'&&/^data:image\/(png|jpeg|webp);base64,/.test(raw.referenceImage))p.reference.image=raw.referenceImage;
- p.render.person=raw.render?.showPerson!==false;p.render.floral=!!raw.render?.floralTop;p.render.frame=raw.frame?.showFrame!==false;
+ p.render.person=raw.render?.showPerson!==false;p.render.floral=!!raw.render?.floralTop;p.render.frame=raw.frame?.showFrame!==false;p.render.personAsset='./examples/person-scale.png';
  validateProject(p);return p;
 }
 export function validateProject(p){
