@@ -2,8 +2,8 @@
 <html lang="th">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#142743"><meta name="description" content="Wedding Fabric Studio V4: move layers, shape curves, fabric cost and preliminary steel frame screening">
-<title>Fabric Studio V4 · Shape & Frame Studio</title>
+<meta name="theme-color" content="#142743"><meta name="description" content="Wedding Fabric Studio V5: reference-style presets, richer fabric rendering, human scale reference and steel stock planning">
+<title>Fabric Studio V5 · Reference Render & Steel Planner</title>
 <style>
 :root{font:14px/1.6 -apple-system,BlinkMacSystemFont,"Noto Sans Thai",Tahoma,sans-serif;background:#f3f6f9;color:#21314a;font-synthesis:none}
 *{box-sizing:border-box}body{margin:0;min-width:320px}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}input[type=number]{font-variant-numeric:tabular-nums}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8fc1ff;outline-offset:2px}[hidden]{display:none!important}
@@ -17,6 +17,11 @@
 
 /* V4 shape designer and frame screening */
 .nudge-group{display:grid;grid-template-columns:116px minmax(0,1fr);gap:12px;margin-bottom:15px}.nudge-pad{display:grid;grid-template-columns:repeat(3,32px);grid-template-rows:repeat(2,34px);gap:4px;place-content:start}.nudge-pad button{border:1px solid #cedfec;background:#e9f3fb;color:#265979;font-size:19px;font-weight:900;border-radius:7px}.nudge-pad button:first-child{grid-column:2}.nudge-pad button:nth-child(2){grid-column:1;grid-row:2}.nudge-pad button:nth-child(3){grid-column:2;grid-row:2}.nudge-pad button:nth-child(4){grid-column:3;grid-row:2}.nudge-pad button:hover,.canvas-tool-modes button.active{background:#255779;color:#fff}.nudge-meta{display:grid;gap:6px}.nudge-meta .button{padding:6px}.nudge-meta small{color:#7890a6;font-size:10px;line-height:1.5}.shape-fields{margin-top:5px}.shape-notice{font-size:10px;line-height:1.65;color:#8a5d26;background:#fff8ec;border:1px solid #f4dfb2;border-radius:8px;padding:9px 10px;margin-top:12px}.canvas-tool-modes{position:absolute;top:16px;right:15px;display:flex;gap:5px}.canvas-tool-modes button{border:1px solid #b9d0e0;background:#f9fcffeb;color:#3e6686;font-size:11px;padding:6px 9px;border-radius:8px;cursor:pointer}.design-stage.move-mode canvas{cursor:move}.design-stage.move-mode canvas:active{cursor:grabbing}.frame-card .section-head{flex-wrap:wrap}.frame-alert{font-size:10px;border-radius:100px;background:#fff0e3;border:1px solid #f4ce9b;color:#95631d;padding:5px 10px;font-weight:750}.frame-grid{display:grid;grid-template-columns:minmax(270px,0.95fr) minmax(310px,1.05fr);gap:22px;padding:0 22px 20px}.frame-setup .fields-grid{gap:11px}.frame-checkbox{display:flex;align-items:center;justify-content:space-between;gap:14px}.frame-checkbox input{width:20px;height:20px;accent-color:#2d658e}.frame-result{background:#f7fafc;border-radius:12px;border:1px solid #e4edf3;padding:13px;min-width:0}.frame-illustration{display:block;width:100%;height:auto}.frame-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:14px}.frame-metrics>div{border:1px solid #e1ebf2;background:white;border-radius:8px;padding:10px;min-width:0}.frame-metrics span{display:block;color:#8599ab;font-size:10px}.frame-metrics strong{display:block;color:#2d597b;font-size:15px;margin-top:6px;font-variant-numeric:tabular-nums}.frame-cutlist{border-top:1px solid #dce7ef;padding-top:12px;margin-top:12px;font-size:11px;color:#526d85;line-height:1.7}.structural-warning{margin:0 22px 22px;padding:14px 16px;background:#fff7eb;border:1px solid #efd7a7;border-left:4px solid #cd9329;border-radius:9px;color:#805c28;font-size:12px}.structural-warning p{font-size:11px;line-height:1.8;margin:5px 0 0}.design-stage{height:475px}.shape-tag{margin-left:5px;color:#6a8ba5;font-size:9px}.layer-entry.selected{box-shadow:inset 3px 0 #3d83bb}.canvas-helper{max-width:55%;line-height:1.4}
+
+.reference-toolbar{padding:0 22px 16px;display:grid;gap:12px;border-bottom:1px solid #edf2f6;background:linear-gradient(180deg,#fbfdff,#f6f9fc)}
+.reference-toolbar h3{margin:0;font-size:12px;color:#274765}.preset-strip{display:flex;gap:7px;flex-wrap:wrap}.preset-chip{border:1px solid #d6e3ee;background:#fff;color:#355d80;padding:8px 10px;border-radius:999px;font-size:11px;font-weight:750}.preset-chip:hover,.preset-chip.active{background:#234a6c;color:#fff;border-color:#234a6c}.render-strip{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.render-inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.mini-select{border:1px solid #d9e4ed;border-radius:8px;background:#fff;height:34px;padding:0 10px;color:#355575}.mini-check{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #d9e4ed;border-radius:999px;padding:7px 10px;color:#43657f;font-size:11px;font-weight:700}.mini-check input{accent-color:#2e6a98}.render-help{font-size:10px;color:#7a91a6;line-height:1.55}.frame-cutlist .stock-table{margin-top:8px;border-top:1px dashed #d4e2eb;padding-top:8px}.frame-cutlist .stock-item{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #e2ecf3;padding:4px 0}.frame-cutlist .stock-item:last-child{border-bottom:0}.frame-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.figure-note{font-size:10px;color:#7c94a7;padding:0 22px 14px}.structure-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px 11px}.pill-note{display:inline-block;padding:4px 8px;border-radius:999px;background:#edf5fb;color:#4b7395;font-size:10px;font-weight:800}
+@media(max-width:760px){.frame-metrics{grid-template-columns:1fr 1fr}.reference-toolbar{padding:0 16px 14px}.preset-strip{overflow:auto;flex-wrap:nowrap;padding-bottom:3px}.preset-chip{white-space:nowrap}}
+
 @media(max-width:1000px){.frame-grid{grid-template-columns:1fr}}@media(max-width:560px){.nudge-group{grid-template-columns:110px 1fr}.frame-grid{padding:0 13px 15px}.structural-warning{margin:0 13px 15px}.frame-metrics{grid-template-columns:1fr 1fr}.canvas-label{display:none}.canvas-tool-modes{right:10px;top:10px}.design-stage{height:390px}}
 </style>
 </head>
@@ -45,6 +50,7 @@
   </aside>
   <main class="main-area">
     <section class="preview panel"><div class="section-head"><div><div class="eyebrow">02 — VISUAL DESIGN STUDIO</div><h2>พื้นที่แสดงผลการออกแบบ <span class="live-chip">● LIVE</span></h2></div><div class="tool-tabs"><button class="view-tab active" data-view="3d">◈ 3D Layers</button><button class="view-tab" data-view="reference">▧ ภาพอ้างอิง</button></div></div>
+    <div class="reference-toolbar"><div><h3>Preset รูปแบบฉากจากภาพอ้างอิง <span class="pill-note">เริ่มต้นเร็ว</span></h3><div class="render-help">เลือก preset เพื่อจัด layer ให้ใกล้รูปแบบยอดนิยม เช่น center swag, cross swag, scallop top หรือ conference drape แล้วค่อยแก้ขนาด/สีต่อ</div></div><div class="preset-strip" id="preset-strip"></div><div class="render-strip"><div class="render-inline"><label class="form-field" style="min-width:180px;max-width:220px"><span>บรรยากาศการ Render</span><select id="render-look" class="mini-select"><option value="studio">Studio Neutral</option><option value="wedding">Soft Wedding</option><option value="contrast">High Contrast</option></select></label><label class="mini-check"><input id="toggle-person" type="checkbox" checked> แสดงคนอ้างอิงสเกล</label><label class="mini-check"><input id="toggle-floral" type="checkbox"> เพิ่มแนวดอกไม้ด้านบน</label></div><div class="render-help">3D ยังเป็น parametric preview แต่เพิ่มแสง เงา เงาตกพื้น และ silhouette คน เพื่ออ่านสเกลและ mood ได้ใกล้งานจริงขึ้น</div></div></div>
     <div id="design-view" class="design-stage"><canvas id="design-canvas" tabindex="0" aria-label="ภาพจำลองผ้าหลาย Layer ที่หมุน ซูม และย้าย Layer ได้"></canvas><div class="canvas-label">PARAMETRIC LAYER VISUALIZER <span>●</span>  LIVE</div><div class="canvas-helper" id="canvas-helper">Orbit: ลากเพื่อหมุน · Move: ลากเพื่อขยับ Layer</div><div class="canvas-tool-modes"><button id="tool-orbit" class="active" type="button">◎ Orbit</button><button id="tool-move" type="button">✥ Move Layer</button></div><div class="canvas-controls"><button id="reset-camera" title="รีเซ็ตกล้อง">◎ มุมเริ่มต้น</button><button id="save-png" title="บันทึกพรีวิวเป็น PNG">⇩ PNG</button></div></div>
     <div id="reference-view" class="reference-view" hidden><div class="reference-row"><div class="reference-head"><h3>ภาพตัวแบบและสเกลจริง</h3><p>อัปโหลดภาพ → ระบุขนาดอ้างอิง → วาดกรอบหรือทดลองเลือกโซนสี → ใช้กับ Layer</p></div><label class="button upload-button">↑ อัปโหลดภาพ <input id="image-upload" type="file" accept="image/png,image/jpeg,image/webp" hidden></label></div>
     <div class="ref-tools"><label class="form-field"><span>กว้างจริงของพื้นที่อ้างอิง</span><div class="unit-input"><input id="ref-width" type="number" min="1" value="500"><b>ซม.</b></div></label><label class="form-field"><span>สูงจริงของพื้นที่อ้างอิง</span><div class="unit-input"><input id="ref-height" type="number" min="1" value="250"><b>ซม.</b></div></label><div class="ref-controls"><button class="ref-tool active" data-ref-tool="rect">▧ ตีกรอบพื้นที่</button><button class="ref-tool" data-ref-tool="color">◉ เลือกจากสี (ทดลอง)</button></div><label class="tolerance">ความใกล้เคียงสี <input id="color-tolerance" type="range" min="12" max="95" value="42"><span id="tolerance-label">42</span></label></div>
@@ -57,16 +63,16 @@
 
     <section class="layer-card panel"><div class="section-head"><div><div class="eyebrow">03 — LAYER COMPOSITION</div><h2>โครงสร้างผ้า <span id="layer-count" class="count-pill">2 LAYERS</span></h2></div><div class="inline-actions"><button class="button outlined" id="duplicate-layer">⧉ ทำสำเนา</button><button class="button primary" id="add-layer">＋ เพิ่ม Layer</button></div></div><div class="layer-description">เลือกแต่ละชั้นเพื่อแก้ไขขนาด สี ราคา และตำแหน่ง ส่วนปริมาณสั่งซื้อคำนวณแยกกันทุกชั้น</div><div id="layer-list" class="layers"></div></section>
 
-    <section class="estimate-card panel"><div class="section-head"><div><div class="eyebrow">04 — COST BREAKDOWN / BOM</div><h2>ตารางสั่งซื้อและต้นทุนผ้า</h2></div><button id="export-csv" class="button outlined">⇩ Export CSV</button></div><div class="table-scroll"><table><thead><tr><th>Layer / วัสดุ</th><th>จำนวนผืน/ช่วง</th><th>ทฤษฎี (ม.)</th><th>สั่งซื้อ (ม.)</th><th>฿ / เมตร</th><th>รวม (฿)</th></tr></thead><tbody id="bom-rows"></tbody></table></div><div class="cost-footer"><div class="extras"><label class="form-field"><span>ค่าแรง / ติดตั้ง</span><div class="unit-input"><input id="labor-cost" type="number" min="0" step="1"><b>฿</b></div></label><label class="form-field"><span>อุปกรณ์ / ค่าใช้จ่ายอื่น</span><div class="unit-input"><input id="other-cost" type="number" min="0" step="1"><b>฿</b></div></label></div><div class="invoice-summary"><div><span>รวมราคาผ้า</span><strong id="material-total">—</strong></div><div><span>ค่าแรงและอื่น ๆ</span><strong id="extras-total">—</strong></div><div class="grand-total"><span>ยอดรวมประมาณการ (ไม่รวมเหล็ก)</span><strong id="grand-total">—</strong></div></div></div><div class="bottom-actions"><div class="production-note">ⓘ ประมาณการก่อนผลิตจริง ควรตรวจสอบขนาดหน้าผ้า ตะเข็บ รอยต่อ ค่าขนส่ง และ VAT ที่อาจมีเพิ่มเติม</div><div><button id="import-button" class="button outlined">↑ เปิดโปรเจกต์</button><button id="download-json-bottom" class="button dark">⇩ บันทึกโปรเจกต์ JSON</button><input type="file" id="import-json" accept="application/json,.json" hidden></div></div></section>
+    <section class="estimate-card panel"><div class="section-head"><div><div class="eyebrow">04 — COST BREAKDOWN / BOM</div><h2>ตารางสั่งซื้อและต้นทุนผ้า</h2></div><button id="export-csv" class="button outlined">⇩ Export CSV</button></div><div class="table-scroll"><table><thead><tr><th>Layer / วัสดุ</th><th>จำนวนผืน/ช่วง</th><th>ทฤษฎี (ม.)</th><th>สั่งซื้อ (ม.)</th><th>฿ / เมตร</th><th>รวม (฿)</th></tr></thead><tbody id="bom-rows"></tbody></table></div><div class="cost-footer"><div class="extras"><label class="form-field"><span>ค่าแรง / ติดตั้ง</span><div class="unit-input"><input id="labor-cost" type="number" min="0" step="1"><b>฿</b></div></label><label class="form-field"><span>อุปกรณ์ / ค่าใช้จ่ายอื่น</span><div class="unit-input"><input id="other-cost" type="number" min="0" step="1"><b>฿</b></div></label></div><div class="invoice-summary"><div><span>รวมราคาผ้า</span><strong id="material-total">—</strong></div><div><span>ค่าแรงและอื่น ๆ</span><strong id="extras-total">—</strong></div><div class="grand-total"><span>ยอดรวมประมาณการ (ยังไม่รวมโครงเหล็กเต็มระบบ)</span><strong id="grand-total">—</strong></div></div></div><div class="bottom-actions"><div class="production-note">ⓘ ประมาณการก่อนผลิตจริง ควรตรวจสอบขนาดหน้าผ้า ตะเข็บ รอยต่อ ค่าขนส่ง และ VAT ที่อาจมีเพิ่มเติม</div><div><button id="import-button" class="button outlined">↑ เปิดโปรเจกต์</button><button id="download-json-bottom" class="button dark">⇩ บันทึกโปรเจกต์ JSON</button><input type="file" id="import-json" accept="application/json,.json" hidden></div></div></section>
     <section class="panel frame-card"><div class="section-head"><div><div class="eyebrow">05 — STEEL FRAME / PRELIMINARY SCREEN</div><h2>ประเมินโครงเหล็กเบื้องต้น <span class="count-pill">GRAVITY ONLY</span></h2></div><span class="frame-alert">ยังไม่ใช่การรับรองความปลอดภัย</span></div>
-      <div class="frame-grid"><div class="frame-setup"><div class="fields-grid"><label class="form-field"><span>ระยะเสาถึงเสาต่อช่วง</span><div class="unit-input"><input data-frame="spanCm" type="number" min="50" max="600" step="10"><b>ซม.</b></div></label><label class="form-field"><span>ความสูงเสา</span><div class="unit-input"><input data-frame="heightCm" type="number" min="50" max="600" step="10"><b>ซม.</b></div></label><label class="form-field"><span>จำนวนช่วงคาน</span><div class="unit-input"><input data-frame="bays" type="number" min="1" max="12" step="1"><b>ช่วง</b></div></label><label class="form-field"><span>น้ำหนักผ้า</span><div class="unit-input"><input data-frame="fabricGsm" type="number" min="10" max="2000" step="10"><b>g/m²</b></div></label><label class="form-field"><span>อุปกรณ์แขวนรวม</span><div class="unit-input"><input data-frame="accessoryKg" type="number" min="0" max="2000" step="1"><b>กก.</b></div></label><label class="form-field"><span>หน้าตัดคานบน</span><select id="beam-profile" data-frame="beamProfile"></select></label><label class="form-field"><span>หน้าตัดเสาตั้ง</span><select id="post-profile" data-frame="postProfile"></select></label><label class="form-field"><span>ราคาคาน / เหล็ก 6 ม.</span><div class="unit-input"><input data-frame="beamPrice" type="number" min="0" step="10"><b>฿</b></div></label><label class="form-field"><span>ราคาเสา / เหล็ก 6 ม.</span><div class="unit-input"><input data-frame="postPrice" type="number" min="0" step="10"><b>฿</b></div></label><label class="form-field frame-checkbox"><span>แสดงเสา/คานใน Preview</span><input data-frame="showFrame" type="checkbox"></label></div><p class="subtext">คำนวณน้ำหนักผ้าจากความยาวทางทฤษฎี × หน้าผ้า × GSM, สมมติว่ากระจายน้ำหนักเท่ากันทุกช่วง และคานมีจุดรองรับสองด้าน <b>ค่าโปรไฟล์เป็นตัวอย่างเพื่อทดลองคำนวณ ไม่ใช่คำแนะนำขนาดที่ปลอดภัย</b></p></div>
-       <div class="frame-result"><svg class="frame-illustration" id="frame-illustration" viewBox="0 0 520 175" aria-label="ผังโครงคานและเสาประกอบเบื้องต้น"><rect x="0" y="0" width="520" height="175" rx="12" fill="#f1f6fa"/><g id="frame-schematic"></g></svg><div class="frame-metrics"><div><span>น้ำหนักผ้าแขวนประมาณ</span><strong id="frame-fabric-mass">—</strong></div><div><span>น้ำหนักรวมกระจาย/ช่วง (รวมคาน+อุปกรณ์)</span><strong id="frame-per-bay">—</strong></div><div><span>แรงดัดคานจากน้ำหนักแนวดิ่ง</span><strong id="frame-bending">—</strong></div><div><span>ระยะโก่งกลางคานคำนวณ</span><strong id="frame-deflection">—</strong></div><div><span>จำนวนเหล็ก 6 ม. (คาน + เสา)</span><strong id="frame-bars">—</strong></div><div><span>ค่าเหล็กเฉพาะเสา/คาน</span><strong id="frame-steel-cost">—</strong></div></div><div id="frame-material-list" class="frame-cutlist"></div></div></div>
+      <div class="frame-grid"><div class="frame-setup"><div class="fields-grid"><label class="form-field"><span>ระยะเสาถึงเสาต่อช่วง</span><div class="unit-input"><input data-frame="spanCm" type="number" min="50" max="600" step="10"><b>ซม.</b></div></label><label class="form-field"><span>ความสูงเสา</span><div class="unit-input"><input data-frame="heightCm" type="number" min="50" max="600" step="10"><b>ซม.</b></div></label><label class="form-field"><span>จำนวนช่วงคาน</span><div class="unit-input"><input data-frame="bays" type="number" min="1" max="12" step="1"><b>ช่วง</b></div></label><label class="form-field"><span>น้ำหนักผ้า</span><div class="unit-input"><input data-frame="fabricGsm" type="number" min="10" max="2000" step="10"><b>g/m²</b></div></label><label class="form-field"><span>อุปกรณ์แขวนรวม</span><div class="unit-input"><input data-frame="accessoryKg" type="number" min="0" max="2000" step="1"><b>กก.</b></div></label><label class="form-field"><span>หน้าตัดคานบน</span><select id="beam-profile" data-frame="beamProfile"></select></label><label class="form-field"><span>หน้าตัดเสาตั้ง</span><select id="post-profile" data-frame="postProfile"></select></label><label class="form-field"><span>หน้าตัดค้ำยัน</span><select id="brace-profile" data-frame="braceProfile"></select></label><label class="form-field"><span>ราคาคาน / เหล็ก 6 ม.</span><div class="unit-input"><input data-frame="beamPrice" type="number" min="0" step="10"><b>฿</b></div></label><label class="form-field"><span>ราคาเสา / เหล็ก 6 ม.</span><div class="unit-input"><input data-frame="postPrice" type="number" min="0" step="10"><b>฿</b></div></label><label class="form-field"><span>ราคาค้ำยัน / เหล็ก 6 ม.</span><div class="unit-input"><input data-frame="bracePrice" type="number" min="0" step="10"><b>฿</b></div></label><label class="form-field"><span>จำนวนเพลทฐาน</span><div class="unit-input"><input data-frame="basePlateCount" type="number" min="0" step="1"><b>ชิ้น</b></div></label><label class="form-field"><span>ราคาเพลทฐาน / ชิ้น</span><div class="unit-input"><input data-frame="basePlatePrice" type="number" min="0" step="1"><b>฿</b></div></label><label class="form-field frame-checkbox"><span>ใส่ค้ำยันทแยง</span><input data-frame="includeBracing" type="checkbox"></label><label class="form-field frame-checkbox"><span>แสดงเสา/คานใน Preview</span><input data-frame="showFrame" type="checkbox"></label></div><p class="subtext">คำนวณน้ำหนักผ้าจากความยาวทางทฤษฎี × หน้าผ้า × GSM, สมมติว่ากระจายน้ำหนักเท่ากันทุกช่วง และคานมีจุดรองรับสองด้าน พร้อมประเมินค้ำยันทแยงแบบง่ายเพื่อใช้จัดซื้อ <b>ค่าโปรไฟล์เป็นตัวอย่างเพื่อทดลองคำนวณ ไม่ใช่คำแนะนำขนาดที่ปลอดภัย</b></p><div class="figure-note">ระบบนี้คิดจำนวนเส้นเหล็กจากวัสดุมาตรฐาน <b>6 เมตร/เส้น</b> เพื่อใช้สั่งร้านค้า และแสดงรายการตัดเบื้องต้นของคาน เสา และค้ำยัน</div></div>
+       <div class="frame-result"><svg class="frame-illustration" id="frame-illustration" viewBox="0 0 520 175" aria-label="ผังโครงคานและเสาประกอบเบื้องต้น"><rect x="0" y="0" width="520" height="175" rx="12" fill="#f1f6fa"/><g id="frame-schematic"></g></svg><div class="frame-metrics"><div><span>น้ำหนักผ้าแขวนประมาณ</span><strong id="frame-fabric-mass">—</strong></div><div><span>น้ำหนักรวมกระจาย/ช่วง (รวมคาน+อุปกรณ์)</span><strong id="frame-per-bay">—</strong></div><div><span>แรงดัดคานจากน้ำหนักแนวดิ่ง</span><strong id="frame-bending">—</strong></div><div><span>ระยะโก่งกลางคานคำนวณ</span><strong id="frame-deflection">—</strong></div><div><span>จำนวนเหล็ก 6 ม. รวมทุกชนิด</span><strong id="frame-bars">—</strong></div><div><span>ค่าเหล็กและเพลทฐาน</span><strong id="frame-steel-cost">—</strong></div><div><span>ค้ำยันทแยงที่ประเมิน</span><strong id="frame-braces">—</strong></div></div><div id="frame-material-list" class="frame-cutlist"></div></div></div>
       <div class="structural-warning"><strong>สำคัญ — แบบจำลองนี้ไม่ได้คำนวณกำลังรับน้ำหนักอย่างครบถ้วน</strong><p><b>รายการโครงสร้างที่ต้องพิจารณาเพิ่ม:</b> ค้ำยันแนวทแยง/ป้องกันโยก, เพลทฐาน, พุก/สมอหรือวัสดุถ่วง, ตัวเชื่อมคาน–เสา, ข้อต่อ/สลักเกลียว, จุดแขวนผ้า และอุปกรณ์ยึดสายสลิง (ยังไม่ได้กำหนดขนาดและราคา)</p><p>ยังไม่ตรวจแรงลม, แรงดึงผ้า, การโยกด้านข้าง, จุดต่อ/รอยเชื่อม, ความมั่นคงเสา, ฐานราก, สมอหรือถ่วงน้ำหนัก, ความชำรุด/ค่ากำลังเหล็กจริง และการตั้งในพื้นที่สาธารณะ ห้ามใช้ผลนี้ยืนยันว่า “โครงรับไหว” โดยเฉพาะงานกลางแจ้ง ควรให้วิศวกรโครงสร้างตรวจแบบและหน้างานก่อนติดตั้ง</p></div>
     </section>
     <div class="app-error" id="app-error" hidden></div>
   </main>
 </div>
-<footer><span>FABRIC STUDIO V4 · SHAPES + FRAME + COST</span><span>CLIENT-SIDE APPLICATION · NO SERVER REQUIRED</span></footer>
+<footer><span>FABRIC STUDIO V5 · REFERENCE RENDER + STEEL PLANNER</span><span>CLIENT-SIDE APPLICATION · NO SERVER REQUIRED</span></footer>
 <script>
 // --- engine.js ---
 /** Centimetres are the canonical internal unit. Buffer inputs use percent points. */
@@ -124,6 +130,15 @@ function catenaryDropAt(xCm, spanCm, sagCm) {
 
 
 const SHAPE_TYPES=['straight','arch','scallop','wave','diagonal'];
+const RENDER_LOOKS={studio:{bg:['#e7eef6','#ffffff'],floor:'#dbe6f0',wall:'#f5f8fc'},wedding:{bg:['#f5f4f7','#ffffff'],floor:'#efe7e5',wall:'#fffafa'},contrast:{bg:['#dde7f0','#f8fbff'],floor:'#d0dce8',wall:'#f4f8fc'}};
+const REFERENCE_PRESETS={
+ 'blue-center':{label:'Blue Center',render:{look:'wedding',showPerson:true,floralTop:true},frame:{spanCm:250,heightCm:260,bays:2},layers:[{name:'White Base',color:'#f5f6f7',opacity:100,widthCm:500,heightCm:250,fabricWidth:150,fullness:2,quantity:1,unitPrice:95,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:2,sweepCm:0,visible:true},{name:'Blue Left Sweep',color:'#b7d5ef',opacity:94,widthCm:240,heightCm:235,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:125,xOffsetCm:-95,yOffsetCm:15,depthCm:10,curveType:'arch',curveDepthCm:42,curveRepeats:1,sweepCm:36,visible:true},{name:'Blue Right Sweep',color:'#b7d5ef',opacity:94,widthCm:240,heightCm:235,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:125,xOffsetCm:95,yOffsetCm:15,depthCm:12,curveType:'arch',curveDepthCm:42,curveRepeats:1,sweepCm:-36,visible:true},{name:'Blue Center Drop',color:'#d4e6f6',opacity:92,widthCm:120,heightCm:250,fabricWidth:150,fullness:1.7,quantity:1,unitPrice:125,xOffsetCm:0,yOffsetCm:0,depthCm:18,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true}]},
+ 'pink-gold-cross':{label:'Pink + Gold Cross',render:{look:'wedding',showPerson:true,floralTop:false},frame:{spanCm:300,heightCm:270,bays:2},layers:[{name:'White Base',color:'#f5f6f7',opacity:100,widthCm:600,heightCm:270,fabricWidth:150,fullness:2,quantity:1,unitPrice:95,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:2,sweepCm:0,visible:true},{name:'Pink Cross',color:'#f2b8c8',opacity:95,widthCm:280,heightCm:255,fabricWidth:150,fullness:1.7,quantity:1,unitPrice:125,xOffsetCm:-95,yOffsetCm:5,depthCm:10,curveType:'diagonal',curveDepthCm:95,curveRepeats:1,sweepCm:58,visible:true},{name:'Champagne Cross',color:'#dbc39f',opacity:95,widthCm:280,heightCm:255,fabricWidth:150,fullness:1.7,quantity:1,unitPrice:135,xOffsetCm:95,yOffsetCm:5,depthCm:15,curveType:'diagonal',curveDepthCm:95,curveRepeats:1,sweepCm:-58,visible:true},{name:'Center Pink Drop',color:'#efabc5',opacity:92,widthCm:130,heightCm:270,fabricWidth:150,fullness:1.75,quantity:1,unitPrice:125,xOffsetCm:0,yOffsetCm:0,depthCm:22,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true}]},
+ 'white-scallop':{label:'White Scallop',render:{look:'studio',showPerson:true,floralTop:false},frame:{spanCm:250,heightCm:260,bays:2},layers:[{name:'White Base',color:'#f5f6f7',opacity:100,widthCm:500,heightCm:260,fabricWidth:150,fullness:2.1,quantity:1,unitPrice:95,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true},{name:'Top Scallop',color:'#ffffff',opacity:98,widthCm:500,heightCm:125,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:98,xOffsetCm:0,yOffsetCm:135,depthCm:10,curveType:'scallop',curveDepthCm:46,curveRepeats:3,sweepCm:0,visible:true},{name:'Lower Swag',color:'#fbfbfb',opacity:96,widthCm:500,heightCm:165,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:98,xOffsetCm:0,yOffsetCm:0,depthCm:14,curveType:'scallop',curveDepthCm:34,curveRepeats:4,sweepCm:0,visible:true}]},
+ 'conference-top':{label:'Conference Top Drape',render:{look:'studio',showPerson:true,floralTop:false},frame:{spanCm:250,heightCm:280,bays:3},layers:[{name:'White Base',color:'#f5f6f7',opacity:100,widthCm:750,heightCm:280,fabricWidth:150,fullness:2,quantity:1,unitPrice:95,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true},{name:'Top Valance',color:'#ffffff',opacity:97,widthCm:750,heightCm:115,fabricWidth:150,fullness:1.75,quantity:1,unitPrice:100,xOffsetCm:0,yOffsetCm:165,depthCm:12,curveType:'scallop',curveDepthCm:40,curveRepeats:4,sweepCm:0,visible:true}]},
+ 'magenta-cross':{label:'Magenta Cross',render:{look:'contrast',showPerson:true,floralTop:false},frame:{spanCm:250,heightCm:270,bays:2},layers:[{name:'White Side Base',color:'#ffffff',opacity:100,widthCm:520,heightCm:270,fabricWidth:150,fullness:2,quantity:1,unitPrice:95,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true},{name:'Magenta Main',color:'#d91d73',opacity:96,widthCm:270,heightCm:270,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:145,xOffsetCm:0,yOffsetCm:0,depthCm:10,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true},{name:'White Left Sweep',color:'#ffffff',opacity:98,widthCm:245,heightCm:240,fabricWidth:150,fullness:1.75,quantity:1,unitPrice:95,xOffsetCm:-105,yOffsetCm:10,depthCm:16,curveType:'arch',curveDepthCm:36,curveRepeats:1,sweepCm:58,visible:true},{name:'Magenta Right Sweep',color:'#df2c7e',opacity:95,widthCm:245,heightCm:240,fabricWidth:150,fullness:1.75,quantity:1,unitPrice:145,xOffsetCm:105,yOffsetCm:10,depthCm:18,curveType:'arch',curveDepthCm:36,curveRepeats:1,sweepCm:-58,visible:true}]},
+ 'pink-center':{label:'Pink Center Swag',render:{look:'wedding',showPerson:true,floralTop:false},frame:{spanCm:250,heightCm:250,bays:2},layers:[{name:'Pink Base',color:'#f4b7ce',opacity:100,widthCm:500,heightCm:250,fabricWidth:150,fullness:2,quantity:1,unitPrice:98,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true},{name:'Pink Top Swag',color:'#f8d0de',opacity:92,widthCm:380,heightCm:140,fabricWidth:150,fullness:1.9,quantity:1,unitPrice:98,xOffsetCm:0,yOffsetCm:110,depthCm:10,curveType:'arch',curveDepthCm:55,curveRepeats:1,sweepCm:0,visible:true},{name:'Pink Center Drop',color:'#f1a9c4',opacity:90,widthCm:120,heightCm:250,fabricWidth:150,fullness:1.7,quantity:1,unitPrice:98,xOffsetCm:0,yOffsetCm:0,depthCm:16,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true}]},
+ 'mauve-wedding':{label:'Mauve Wedding',render:{look:'wedding',showPerson:true,floralTop:true},frame:{spanCm:300,heightCm:300,bays:2},layers:[{name:'Ivory Base',color:'#f8f5ef',opacity:100,widthCm:600,heightCm:300,fabricWidth:150,fullness:2,quantity:1,unitPrice:99,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:1,sweepCm:0,visible:true},{name:'Mauve Top Left',color:'#b38d8d',opacity:95,widthCm:280,heightCm:160,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:132,xOffsetCm:-120,yOffsetCm:145,depthCm:12,curveType:'wave',curveDepthCm:28,curveRepeats:2,sweepCm:20,visible:true},{name:'Mauve Top Right',color:'#b38d8d',opacity:95,widthCm:280,heightCm:160,fabricWidth:150,fullness:1.8,quantity:1,unitPrice:132,xOffsetCm:120,yOffsetCm:145,depthCm:14,curveType:'wave',curveDepthCm:28,curveRepeats:2,sweepCm:-20,visible:true},{name:'Ivory Inner Sweep',color:'#fffdf8',opacity:95,widthCm:360,heightCm:235,fabricWidth:150,fullness:1.85,quantity:1,unitPrice:99,xOffsetCm:0,yOffsetCm:25,depthCm:20,curveType:'arch',curveDepthCm:55,curveRepeats:1,sweepCm:0,visible:true}]}};
 function shapeProfile(type,u,repeats=2){
   const t=Math.max(0,Math.min(1,u)),r=Math.max(1,Math.min(6,Math.floor(Number(repeats)||2)));
   if(type==='arch')return Math.sin(Math.PI*t);
@@ -254,10 +269,11 @@ const PALETTE = [
   ['#e9c6cf','ชมพูอ่อน'],['#cdbce4','ลาเวนเดอร์'],['#d9c5b2','แชมเปญ'],['#191e2a','ดำ']
 ];
 const DEFAULT_PROJECT = {
-  version:4, name:'Wedding Fabric Studio · Concept 01', type:'backdrop', increment:0.5,
+  version:5, name:'Wedding Fabric Studio · Concept 01', type:'backdrop', increment:0.5,
   buffers:{seamBuffer:7,shrinkageBuffer:0,patternMatchBuffer:0,wastageBuffer:5},
   laborCost:0,otherCost:0,
-  frame:{spanCm:250,heightCm:260,bays:2,beamProfile:"rhs-75-45-23",postProfile:"shs-50-50-23",fabricGsm:180,accessoryKg:8,beamPrice:470,postPrice:390,showFrame:true},
+  render:{look:'wedding',showPerson:true,floralTop:false},
+  frame:{spanCm:250,heightCm:260,bays:2,beamProfile:"rhs-75-45-23",postProfile:"shs-50-50-23",braceProfile:"shs-40-40-20",fabricGsm:180,accessoryKg:8,beamPrice:470,postPrice:390,bracePrice:320,basePlateCount:6,basePlatePrice:90,includeBracing:true,showFrame:true},
   layers:[
     {id:'layer-base',name:'ผ้าหลัก · White Base',visible:true,color:'#f5f6f7',opacity:100,
       widthCm:500,heightCm:250,spanCm:400,sagCm:80,swags:3,method:'brief',fabricWidth:150,fullness:2,quantity:1,unitPrice:95,xOffsetCm:0,yOffsetCm:0,depthCm:0,curveType:'straight',curveDepthCm:0,curveRepeats:2,sweepCm:0},
@@ -328,7 +344,7 @@ const STEEL_PROFILES={
  'rhs-100-50-30':{w:50,h:100,t:3,label:'RHS 100×50×3.0 mm (100 สูง)'},
  'shs-100-100-32':{w:100,h:100,t:3.2,label:'SHS 100×100×3.2 mm'}
 };
-const DEFAULT_FRAME={spanCm:250,heightCm:260,bays:2,beamProfile:'rhs-75-45-23',postProfile:'shs-50-50-23',fabricGsm:180,accessoryKg:8,beamPrice:470,postPrice:390,showFrame:true};
+const DEFAULT_FRAME={spanCm:250,heightCm:260,bays:2,beamProfile:'rhs-75-45-23',postProfile:'shs-50-50-23',braceProfile:'shs-40-40-20',fabricGsm:180,accessoryKg:8,beamPrice:470,postPrice:390,bracePrice:320,basePlateCount:6,basePlatePrice:90,includeBracing:true,showFrame:true};
 function hollowSection(spec){
  const {w,h,t}=spec,area=w*h-(w-2*t)*(h-2*t);
  const inertia=(w*h**3-(w-2*t)*(h-2*t)**3)/12;
@@ -344,12 +360,13 @@ function countStockBars(cutsCm,stockCm=600){
  }
  return remaining.length;
 }
+
 function calculateFrameScreen(project,calculation){
  const f={...DEFAULT_FRAME,...project.frame},n=Number(f.bays),span=positiveNumber(f.spanCm,'frameSpanCm'),height=positiveNumber(f.heightCm,'frameHeightCm');
  if(!Number.isInteger(n)||n<1||n>12||span>600||height>600)throw new RangeError('Frame: 1–12 bays, beam and post length must be ≤ 600 cm');
- const gsm=positiveNumber(f.fabricGsm,'fabricGsm'),accessories=positiveNumber(f.accessoryKg,'accessoryKg',true),beam=STEEL_PROFILES[f.beamProfile],post=STEEL_PROFILES[f.postProfile];
- if(!beam||!post)throw new Error('Select listed steel tube profiles');
- const beamSec=hollowSection(beam),postSec=hollowSection(post);
+ const gsm=positiveNumber(f.fabricGsm,'fabricGsm'),accessories=positiveNumber(f.accessoryKg,'accessoryKg',true),beam=STEEL_PROFILES[f.beamProfile],post=STEEL_PROFILES[f.postProfile],brace=STEEL_PROFILES[f.braceProfile];
+ if(!beam||!post||!brace)throw new Error('Select listed steel tube profiles');
+ const beamSec=hollowSection(beam),postSec=hollowSection(post),braceSec=hollowSection(brace);
  const fabricKg=calculation.items.reduce((s,item,i)=>s+item.theoreticalMeters*(project.layers[i].fabricWidth/100)*gsm/1000,0);
  const beamLengthM=span/100,beamSelfKg=beamSec.kgPerM*beamLengthM;
  const loadPerBayKg=(fabricKg+accessories)/n+beamSelfKg;
@@ -357,15 +374,20 @@ function calculateFrameScreen(project,calculation){
  const bendingNmm=w*spanMm*spanMm/8,stressMpa=bendingNmm*(beam.h/2)/beamSec.inertiaMm4;
  const deflectionMm=5*w*(spanMm**4)/(384*200000*beamSec.inertiaMm4);
  const beamCuts=Array(n).fill(span),postCuts=Array(n+1).fill(height);
- const beamBars=countStockBars(beamCuts),postBars=countStockBars(postCuts);
- const steelKg=n*beamLengthM*beamSec.kgPerM+(n+1)*(height/100)*postSec.kgPerM;
- const estimateSteelCost=beamBars*positiveNumber(f.beamPrice,'beamPrice',true)+postBars*positiveNumber(f.postPrice,'postPrice',true);
+ const braceLen=Math.round(Math.hypot(span,height));
+ const braceCuts=f.includeBracing?Array(n*2).fill(braceLen):[];
+ const beamBars=countStockBars(beamCuts),postBars=countStockBars(postCuts),braceBars=braceCuts.length?countStockBars(braceCuts):0;
+ const steelKg=n*beamLengthM*beamSec.kgPerM+(n+1)*(height/100)*postSec.kgPerM+braceCuts.length*(braceLen/100)*braceSec.kgPerM;
+ const basePlateCount=Math.max(0,Math.round(Number(f.basePlateCount)||0)),basePlatePrice=positiveNumber(f.basePlatePrice,'basePlatePrice',true);
+ const estimateSteelCost=beamBars*positiveNumber(f.beamPrice,'beamPrice',true)+postBars*positiveNumber(f.postPrice,'postPrice',true)+braceBars*positiveNumber(f.bracePrice,'bracePrice',true)+basePlateCount*basePlatePrice;
  const projectWidthCm=project.type==='backdrop'? Math.max(...project.layers.map(l=>l.widthCm+Math.abs(l.xOffsetCm||0)*2+Math.abs(l.sweepCm||0)*2)) : Math.max(...project.layers.map(l=>l.spanCm*l.swags+Math.abs(l.xOffsetCm||0)*2));
- return {spanCm:span,heightCm:height,bays:n,beam,post,beamBars,postBars,steelKg,estimateSteelCost,spanCoverageCm:span*n,projectWidthCm,
+ return {spanCm:span,heightCm:height,bays:n,beam,post,brace,beamBars,postBars,braceBars,totalBars:beamBars+postBars+braceBars,steelKg,estimateSteelCost,spanCoverageCm:span*n,projectWidthCm,
   fabricKg,accessories,loadPerBayKg,bendingMpa:stressMpa,deflectionMm,beamDeflectionLimitVisualMm:spanMm/240,
-  sideReactionKg:loadPerBayKg/2,beamSelfKg,
+  sideReactionKg:loadPerBayKg/2,beamSelfKg,braceLen,braceCount:braceCuts.length,basePlateCount,basePlatePrice,
+  beamCuts,postCuts,braceCuts,
   note:'Preliminary uniformly loaded simple-beam gravity calculation only, not a safety/strength verification.'};
 }
+
 
 function estimatedImageRegion(bbox,referenceWidthCm,referenceHeightCm){
   const width=finiteNumber(referenceWidthCm,'referenceWidthCm',.01);
@@ -406,7 +428,7 @@ class LayeredRenderer {
     const pixelW=Math.round(W*dpr),pixelH=Math.round(H*dpr);
     if(canvas.width!==pixelW||canvas.height!==pixelH){canvas.width=pixelW;canvas.height=pixelH;}
     ctx.setTransform(dpr,0,0,dpr,0,0);
-    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#e9f0f7');bg.addColorStop(.64,'#f4f7fb');bg.addColorStop(1,'#fff');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    const look=RENDER_LOOKS[(project.render&&project.render.look)||'studio']||RENDER_LOOKS.studio;const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,look.bg[0]);bg.addColorStop(.64,look.bg[1]);bg.addColorStop(1,'#fff');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);ctx.fillStyle=look.wall;ctx.fillRect(0,H*0.08,W,H*0.57);const floor=ctx.createLinearGradient(0,H*0.58,0,H);floor.addColorStop(0,look.floor);floor.addColorStop(1,'#f9fbfd');ctx.fillStyle=floor;ctx.fillRect(0,H*0.58,W,H*0.42);
     const visible=project.layers.filter(l=>l.visible!==false);if(!visible.length)return;
     const backdrop=project.type==='backdrop';
     const extents=visible.map(l=>backdrop?[(Number(l.widthCm)+Math.abs(Number(l.xOffsetCm))*2+Math.abs(Number(l.sweepCm||0))*2)/100,(Number(l.heightCm)+Number(l.curveDepthCm||0)+Math.abs(Number(l.yOffsetCm||0)))/100]:
@@ -418,6 +440,7 @@ class LayeredRenderer {
     for(let i=-11;i<=11;i++){this.stroke(ctx,P([i*.5,0,-4]),P([i*.5,0,4]));this.stroke(ctx,P([-6,0,i*.4]),P([6,0,i*.4]));}
     ctx.globalAlpha=1;
     // Back-to-front canvas painter's algorithm: each drape mesh has its own independent material.
+    const centerBase=P([0,0,0]);ctx.fillStyle='rgba(59,84,111,.08)';ctx.beginPath();ctx.ellipse(centerBase[0],centerBase[1]+10,Math.max(80,scale*maxW*.42),Math.max(16,scale*.11),0,0,Math.PI*2);ctx.fill();
     if(project.frame?.showFrame){
       const frame={...DEFAULT_FRAME,...project.frame},frameW=(Number(frame.spanCm)||250)*(Number(frame.bays)||2)/100,frameH=(Number(frame.heightCm)||260)/100;
       const zSteel=-.14;ctx.strokeStyle='#7c91a2';ctx.lineWidth=4.2;ctx.lineCap='round';
@@ -425,7 +448,7 @@ class LayeredRenderer {
         const sx=-frameW/2+(j/Math.max(1,Number(frame.bays)||2))*frameW;
         this.stroke(ctx,P([sx,0,zSteel]),P([sx,frameH,zSteel]));
       }
-      this.stroke(ctx,P([-frameW/2,frameH,zSteel]),P([frameW/2,frameH,zSteel]));
+      this.stroke(ctx,P([-frameW/2,frameH,zSteel]),P([frameW/2,frameH,zSteel])); if(frame.includeBracing){ctx.strokeStyle='#9aaab8';ctx.lineWidth=2.2;for(let j=0;j<Math.min(12,Number(frame.bays)||2);j++){const ax=-frameW/2+(j/Math.max(1,Number(frame.bays)||2))*frameW,bx=-frameW/2+((j+1)/Math.max(1,Number(frame.bays)||2))*frameW;this.stroke(ctx,P([ax,0,zSteel+.01]),P([bx,frameH,zSteel+.01]));this.stroke(ctx,P([ax,frameH,zSteel+.01]),P([bx,0,zSteel+.01]));}}
     }
     for(let li=0;li<visible.length;li++){
       const l=visible[li],z=(Number(l.depthCm)||0)/100+li*.015,
@@ -465,6 +488,7 @@ class LayeredRenderer {
           surface(grid,nx,ny);
         }
       }
+      ctx.save();ctx.globalAlpha=.08*opacity;ctx.fillStyle='#516a81';const shadowTop=P([xShift,0,z-.02]);ctx.beginPath();ctx.ellipse(shadowTop[0],shadowTop[1]+10,Math.max(30,scale*width*.24),Math.max(7,scale*.04),0,0,Math.PI*2);ctx.fill();ctx.restore();
       const faces=[];
       for(const t of triangles){
         const [a,b,c]=t.map(P),u=t[1].map((n,i)=>n-t[0][i]),v=t[2].map((n,i)=>n-t[0][i]);
@@ -482,6 +506,7 @@ class LayeredRenderer {
         const quad=[P([lx,by,z]),P([rx,by,z]),P([rx,top,z]),P([lx,top,z])];
         ctx.beginPath();quad.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();ctx.stroke();ctx.setLineDash([]);
       }
+      if(project.render?.floralTop && li===0){this.drawFloral(ctx,P,xShift-width/2,xShift+width/2,top+.09,z+.03);}
       if(li===0){
         ctx.strokeStyle='#9dabb9';ctx.lineWidth=3;ctx.lineCap='round';
         this.stroke(ctx,P([xShift-width/2-.08,top+.075,z-.06]),P([xShift+width/2+.08,top+.075,z-.06]));
@@ -489,6 +514,27 @@ class LayeredRenderer {
       }
     }
   }
+
+drawPerson(ctx,P,x,z,height=1.68){
+  const foot=P([x,0,z]),head=P([x,height,z]);
+  const scale=Math.abs(foot[1]-head[1]);
+  ctx.save();ctx.strokeStyle='#627487';ctx.fillStyle='rgba(98,116,135,.16)';ctx.lineWidth=2.2;
+  const shadow=P([x,0,z+.18]);ctx.beginPath();ctx.ellipse(shadow[0],shadow[1]+4,Math.max(10,scale*.15),Math.max(4,scale*.05),0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(head[0],head[1]+scale*.08,Math.max(6,scale*.07),0,Math.PI*2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(head[0],head[1]+scale*.16);ctx.lineTo(foot[0],foot[1]-scale*.22);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(head[0],head[1]+scale*.34);ctx.lineTo(head[0]-scale*.12,head[1]+scale*.58);ctx.moveTo(head[0],head[1]+scale*.34);ctx.lineTo(head[0]+scale*.12,head[1]+scale*.58);ctx.moveTo(foot[0],foot[1]-scale*.22);ctx.lineTo(foot[0]-scale*.10,foot[1]);ctx.moveTo(foot[0],foot[1]-scale*.22);ctx.lineTo(foot[0]+scale*.10,foot[1]);ctx.stroke();
+  ctx.font='11px sans-serif';ctx.fillStyle='#64798d';ctx.fillText('คนอ้างอิง ~170 ซม.',head[0]+10,head[1]+10);ctx.restore();
+}
+drawFloral(ctx,P,left,right,topY,z){
+  const count=24;ctx.save();
+  for(let i=0;i<count;i++){
+    const t=i/(count-1),x=left+(right-left)*t+(Math.sin(i*1.7)*.03),p=P([x,topY,z]);
+    const r=6+2*Math.sin(i*2.3);
+    ctx.fillStyle=i%3===0?'rgba(200,219,236,.85)':i%3===1?'rgba(168,198,228,.78)':'rgba(236,243,250,.85)';
+    ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
   stroke(ctx,a,b){ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
 }
 
@@ -503,9 +549,10 @@ const meters=n=>Number(n).toLocaleString('th-TH',{minimumFractionDigits:2,maximu
 const safe=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const number=(v,defaultValue=0)=>Number.isFinite(Number(v))?Number(v):defaultValue;
 const stored=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}};
-const STORAGE_KEY='wfs-v4-project';
-let project=stored(STORAGE_KEY,stored('wfs-v3-project',clone(DEFAULT_PROJECT)));
+const STORAGE_KEY='wfs-v5-project';
+let project=stored(STORAGE_KEY, stored('wfs-v4-project', stored('wfs-v3-project', clone(DEFAULT_PROJECT))));
 project.frame={...clone(DEFAULT_FRAME),...(project.frame||{})};
+project.render={look:'wedding',showPerson:true,floralTop:false,...(project.render||{})};
 project.layers.forEach(l=>Object.assign(l,{curveType:l.curveType||'straight',curveDepthCm:l.curveDepthCm??0,curveRepeats:l.curveRepeats??2,sweepCm:l.sweepCm??0,yOffsetCm:l.yOffsetCm??0}));
 try{calculateProject(project);}catch{project=clone(DEFAULT_PROJECT);}
 let selectedId=project.layers[0].id,calculation=null,view='3d';
@@ -543,9 +590,14 @@ function buildConfig(){
     else node.value=project.frame[key]??DEFAULT_FRAME[key];
   }
   const options=Object.entries(STEEL_PROFILES).map(([key,x])=>`<option value="${key}">${x.label}</option>`).join('');
-  for(const id of ['beam-profile','post-profile'])$(id).innerHTML=options;
+  for(const id of ['beam-profile','post-profile','brace-profile'])$(id).innerHTML=options;
   $('beam-profile').value=project.frame.beamProfile;
   $('post-profile').value=project.frame.postProfile;
+  $('brace-profile').value=project.frame.braceProfile;
+  $('render-look').value=project.render.look||'wedding';
+  $('toggle-person').checked=project.render.showPerson!==false;
+  $('toggle-floral').checked=!!project.render.floralTop;
+  $('preset-strip').innerHTML=Object.entries(REFERENCE_PRESETS).map(([key,p])=>`<button class="preset-chip ${project.preset===key?'active':''}" data-preset="${key}">${safe(p.label)}</button>`).join('');
   updateReferenceDefaults();
 }
 function updateReferenceDefaults(){
@@ -584,20 +636,21 @@ function displayFrame(){
     $('frame-per-bay').textContent=meters(f.loadPerBayKg)+' กก./ช่วง';
     $('frame-bending').textContent=meters(f.bendingMpa)+' MPa';
     $('frame-deflection').textContent=meters(f.deflectionMm)+' มม. (เฉพาะแนวดิ่ง)';
-    $('frame-bars').textContent=`${f.beamBars+f.postBars} เส้น`; 
+    $('frame-bars').textContent=`${f.totalBars} เส้น`; 
     $('frame-steel-cost').textContent='฿ '+money(f.estimateSteelCost);
-    $('frame-material-list').innerHTML=`<strong>รายการตัดเบื้องต้น (ยังไม่รวมค้ำยัน/ฐาน)</strong><div>คาน ${f.beam.label}: ${f.bays} ชิ้น × ${f.spanCm} ซม. → เหล็ก 6 ม. ประมาณ ${f.beamBars} เส้น</div><div>เสา ${f.post.label}: ${f.bays+1} ชิ้น × ${f.heightCm} ซม. → เหล็ก 6 ม. ประมาณ ${f.postBars} เส้น</div><div>น้ำหนักตัวเหล็กประมาณ ${meters(f.steelKg)} กก. · ปริมาณงานผ้ากว้างสุด ~${meters(f.projectWidthCm/100)} ม. / โครงกว้าง ${meters(f.spanCoverageCm/100)} ม.</div>${f.projectWidthCm>f.spanCoverageCm?'<div style="color:#ab5935;font-weight:800">⚠ แบบผ้ากว้างกว่าโครงที่ตั้งไว้ โปรดตรวจช่วงเสาและตำแหน่งปลายผ้า</div>':''}`;
+    $('frame-braces').textContent=f.braceCount?`${f.braceCount} ชิ้น / ${f.braceBars} เส้น`:'ไม่ได้เลือก';
+    $('frame-material-list').innerHTML=`<strong>รายการตัดเบื้องต้น (ยึดวัสดุมาตรฐาน 6 ม./เส้น)</strong><div class="stock-table"><div class="stock-item"><span>คาน ${f.beam.label}</span><span>${f.bays} ชิ้น × ${f.spanCm} ซม. → ${f.beamBars} เส้น</span></div><div class="stock-item"><span>เสา ${f.post.label}</span><span>${f.bays+1} ชิ้น × ${f.heightCm} ซม. → ${f.postBars} เส้น</span></div><div class="stock-item"><span>ค้ำยัน ${f.brace.label}</span><span>${f.braceCount||0} ชิ้น × ${f.braceLen||0} ซม. → ${f.braceBars||0} เส้น</span></div><div class="stock-item"><span>เพลทฐาน</span><span>${f.basePlateCount} ชิ้น × ฿${money(f.basePlatePrice)}</span></div></div><div>น้ำหนักตัวเหล็กประมาณ ${meters(f.steelKg)} กก. · ปริมาณงานผ้ากว้างสุด ~${meters(f.projectWidthCm/100)} ม. / โครงกว้าง ${meters(f.spanCoverageCm/100)} ม.</div>${f.projectWidthCm>f.spanCoverageCm?'<div style="color:#ab5935;font-weight:800">⚠ แบบผ้ากว้างกว่าโครงที่ตั้งไว้ โปรดตรวจช่วงเสาและตำแหน่งปลายผ้า</div>':''}`;
     const g=$('frame-schematic'),n=f.bays,xx=28,yy=24,ww=464,hh=132;
     let lines=`<path d="M${xx} ${yy+hh} H${xx+ww}" stroke="#b8cbd8" stroke-width="2" />`;
     for(let i=0;i<=n;i++){
       const x=xx+ww*i/n;
       lines+=`<path d="M${x} ${yy+hh} V${yy}" stroke="#637c91" stroke-width="6" stroke-linecap="round"/><rect x="${x-9}" y="${yy+hh}" width="18" height="6" rx="1" fill="#334c63"/>`;
     }
-    lines+=`<path d="M${xx} ${yy} H${xx+ww}" stroke="#1f668e" stroke-width="7" stroke-linecap="round"/>`;
-    lines+=`<text x="${xx+ww/2}" y="15" text-anchor="middle" fill="#51718c" font-size="12">${n} × ${f.spanCm} cm  •  STEEL FRAME (SCHEMATIC ONLY)</text>`;
+    lines+=`<path d="M${xx} ${yy} H${xx+ww}" stroke="#1f668e" stroke-width="7" stroke-linecap="round"/>`; if(f.braceCount){for(let i=0;i<n;i++){const x1=xx+ww*i/n,x2=xx+ww*(i+1)/n;lines+=`<path d="M${x1} ${yy+hh} L${x2} ${yy}" stroke="#9aaab8" stroke-width="2.5"/><path d="M${x1} ${yy} L${x2} ${yy+hh}" stroke="#9aaab8" stroke-width="2.5"/>`;}}
+    lines+=`<text x="${xx+ww/2}" y="15" text-anchor="middle" fill="#51718c" font-size="12">${n} × ${f.spanCm} cm  •  STEEL FRAME / 6 m STOCK PLANNING</text>`;
     g.innerHTML=lines;
   }catch(err){
-    for(const id of ['frame-fabric-mass','frame-per-bay','frame-bending','frame-deflection','frame-bars','frame-steel-cost'])$(id).textContent='—';
+    for(const id of ['frame-fabric-mass','frame-per-bay','frame-bending','frame-deflection','frame-bars','frame-steel-cost','frame-braces'])$(id).textContent='—';
     $('frame-material-list').textContent='กรุณาตรวจค่าความยาวโครงและขนาดเหล็ก: '+err.message;
   }
 }
@@ -714,7 +767,7 @@ function chooseView(next){view=next;$('design-view').hidden=next!=='3d';$('refer
 function validateImport(raw){
  if(!raw||!Array.isArray(raw.layers)||raw.layers.length<1||raw.layers.length>12||!['backdrop','ceilingDrape'].includes(raw.type))throw new Error('รูปแบบไฟล์โปรเจกต์ไม่ถูกต้อง');
  const out={...clone(DEFAULT_PROJECT),name:String(raw.name||'Imported design').slice(0,90),type:raw.type,increment:raw.increment,
-  buffers:raw.buffers,laborCost:raw.laborCost,otherCost:raw.otherCost,frame:{...clone(DEFAULT_FRAME),...(raw.frame||{})},
+  buffers:raw.buffers,laborCost:raw.laborCost,otherCost:raw.otherCost,render:{...clone(DEFAULT_PROJECT.render),...(raw.render||{})},frame:{...clone(DEFAULT_FRAME),...(raw.frame||{})},
   layers:raw.layers.map((x,i)=>({...clone(DEFAULT_PROJECT.layers[0]),...x,
     curveType:SHAPE_TYPES.includes(x.curveType)?x.curveType:"straight",curveDepthCm:Number(x.curveDepthCm||0),curveRepeats:Number(x.curveRepeats||2),sweepCm:Number(x.sweepCm||0),yOffsetCm:Number(x.yOffsetCm||0),
     id:`import-${i}`,name:String(x.name||`Layer ${i+1}`).slice(0,70),
@@ -722,6 +775,21 @@ function validateImport(raw){
     visible:x.visible!==false}))};
  calculateProject(out);
  return out;
+}
+
+
+function makePresetLayer(base,index){
+  return {...clone(DEFAULT_PROJECT.layers[0]),...base,id:`preset-${index}-${Math.random().toString(36).slice(2,6)}`};
+}
+function applyPreset(key){
+  const preset=REFERENCE_PRESETS[key]; if(!preset) return;
+  project.type='backdrop';
+  project.layers=preset.layers.map((layer,index)=>makePresetLayer(layer,index));
+  project.frame={...project.frame,...preset.frame};
+  project.render={...project.render,...preset.render};
+  project.preset=key;
+  selectedId=project.layers[0].id;
+  refresh();
 }
 
 // Events
@@ -793,6 +861,10 @@ $('layer-list').addEventListener('click',e=>{
 });
 $('layer-list').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const row=e.target.closest('[data-layer-id]');if(row&&!e.target.closest('button')){e.preventDefault();selectedId=row.dataset.layerId;refresh();}}});
 for(const b of document.querySelectorAll('[data-view]'))b.addEventListener('click',()=>chooseView(b.dataset.view));
+$('preset-strip').addEventListener('click',e=>{const btn=e.target.closest('[data-preset]');if(!btn)return;applyPreset(btn.dataset.preset);});
+$('render-look').addEventListener('change',e=>{project.render.look=e.target.value;display();});
+$('toggle-person').addEventListener('change',e=>{project.render.showPerson=e.target.checked;display();});
+$('toggle-floral').addEventListener('change',e=>{project.render.floralTop=e.target.checked;display();});
 $('reset-camera').addEventListener('click',()=>renderer.resetCamera());$('save-png').addEventListener('click',exportPng);
 $('export-csv').addEventListener('click',exportCsv);
 $('download-json').addEventListener('click',exportProject);$('download-json-bottom').addEventListener('click',exportProject);
