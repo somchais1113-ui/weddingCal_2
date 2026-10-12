@@ -1,0 +1,232 @@
+TAP version 13
+# Subtest: front calibration recovers known cm points
+ok 1 - front calibration recovers known cm points
+  ---
+  duration_ms: 2.16091
+  type: 'test'
+  ...
+# Subtest: oblique calibration recovers interior ground-truth points from a known projective camera
+ok 2 - oblique calibration recovers interior ground-truth points from a known projective camera
+  ---
+  duration_ms: 1.985335
+  type: 'test'
+  ...
+# Subtest: degenerate and crossed calibration rejected
+ok 3 - degenerate and crossed calibration rejected
+  ---
+  duration_ms: 0.347327
+  type: 'test'
+  ...
+# Subtest: perspective inverse returns original pixels
+ok 4 - perspective inverse returns original pixels
+  ---
+  duration_ms: 0.211672
+  type: 'test'
+  ...
+# Subtest: Bezier anchors and explicit handles affect actual mesh
+ok 5 - Bezier anchors and explicit handles affect actual mesh
+  ---
+  duration_ms: 7.478384
+  type: 'test'
+  ...
+# Subtest: trace catenary uses centimetres even for unequal aspect ratio
+ok 6 - trace catenary uses centimetres even for unequal aspect ratio
+  ---
+  duration_ms: 0.45457
+  type: 'test'
+  ...
+# Subtest: all mesh families remain finite, including sag zero
+ok 7 - all mesh families remain finite, including sag zero
+  ---
+  duration_ms: 31.259428
+  type: 'test'
+  ...
+# Subtest: ceiling drape geometry and exact catenary length are finite
+ok 8 - ceiling drape geometry and exact catenary length are finite
+  ---
+  duration_ms: 3.777829
+  type: 'test'
+  ...
+# Subtest: straight fabric known panel + seam + shrink + pattern + wastage case
+ok 9 - straight fabric known panel + seam + shrink + pattern + wastage case
+  ---
+  duration_ms: 8.832896
+  type: 'test'
+  ...
+# Subtest: side seam reduces usable roll width and adds a panel at threshold
+ok 10 - side seam reduces usable roll width and adds a panel at threshold
+  ---
+  duration_ms: 8.511961
+  type: 'test'
+  ...
+# Subtest: swag sag increases developed crosswise width and material
+ok 11 - swag sag increases developed crosswise width and material
+  ---
+  duration_ms: 19.097262
+  type: 'test'
+  ...
+# Subtest: moving layer changes placement but not material; anchor geometry changes material
+ok 12 - moving layer changes placement but not material; anchor geometry changes material
+  ---
+  duration_ms: 21.39649
+  type: 'test'
+  ...
+# Subtest: depth deformation increases strip length
+ok 13 - depth deformation increases strip length
+  ---
+  duration_ms: 9.388223
+  type: 'test'
+  ...
+# Subtest: steel sum rounding counterexample: three 3500 pieces need three bars
+ok 14 - steel sum rounding counterexample: three 3500 pieces need three bars
+  ---
+  duration_ms: 0.923121
+  type: 'test'
+  ...
+# Subtest: kerf changes packing at exact length boundary
+ok 15 - kerf changes packing at exact length boundary
+  ---
+  duration_ms: 0.236513
+  type: 'test'
+  ...
+# Subtest: six metre uncut stock requires zero kerf and no splice
+ok 16 - six metre uncut stock requires zero kerf and no splice
+  ---
+  duration_ms: 0.501758
+  type: 'test'
+  ...
+# Subtest: pieces that fit nominally but exceed with kerf are rejected
+ok 17 - pieces that fit nominally but exceed with kerf are rejected
+  ---
+  duration_ms: 0.087807
+  type: 'test'
+  ...
+# Subtest: sections, thickness and grades cannot share stock
+ok 18 - sections, thickness and grades cannot share stock
+  ---
+  duration_ms: 0.1135
+  type: 'test'
+  ...
+# Subtest: every bar balances used length + kerf + offcut exactly
+ok 19 - every bar balances used length + kerf + offcut exactly
+  ---
+  duration_ms: 0.250611
+  type: 'test'
+  ...
+# Subtest: price conflict is surfaced and uses upper quote
+ok 20 - price conflict is surfaced and uses upper quote
+  ---
+  duration_ms: 0.103727
+  type: 'test'
+  ...
+# Subtest: steel theoretical mass round, solid and hollow sections
+ok 21 - steel theoretical mass round, solid and hollow sections
+  ---
+  duration_ms: 0.237995
+  type: 'test'
+  ...
+# Subtest: invalid engine input never returns NaN silently
+ok 22 - invalid engine input never returns NaN silently
+  ---
+  duration_ms: 1.630076
+  type: 'test'
+  ...
+# Subtest: V5 import retains theoretical/purchase/cost outputs
+ok 23 - V5 import retains theoretical/purchase/cost outputs
+  ---
+  duration_ms: 3.560977
+  type: 'test'
+  ...
+# Subtest: all seven V5 presets retain valid materials and independent anchors
+ok 24 - all seven V5 presets retain valid materials and independent anchors
+  ---
+  duration_ms: 4.590501
+  type: 'test'
+  ...
+# Subtest: JSON round trip preserves anchors, calibration, roles and locks
+ok 25 - JSON round trip preserves anchors, calibration, roles and locks
+  ---
+  duration_ms: 2.015351
+  type: 'test'
+  ...
+# Subtest: Undo/Redo branches and stores full anchor geometry
+ok 26 - Undo/Redo branches and stores full anchor geometry
+  ---
+  duration_ms: 0.361532
+  type: 'test'
+  ...
+# Subtest: visibility does not silently remove purchased material
+ok 27 - visibility does not silently remove purchased material
+  ---
+  duration_ms: 15.880607
+  type: 'test'
+  ...
+# Subtest: quantity is applied before order rounding
+ok 28 - quantity is applied before order rounding
+  ---
+  duration_ms: 1.024534
+  type: 'test'
+  ...
+# Subtest: CSV protects formulas, quotes and Thai names
+ok 29 - CSV protects formulas, quotes and Thai names
+  ---
+  duration_ms: 0.478131
+  type: 'test'
+  ...
+# Subtest: unsupported future versions and invalid anchor values rejected
+ok 30 - unsupported future versions and invalid anchor values rejected
+  ---
+  duration_ms: 0.234934
+  type: 'test'
+  ...
+# Subtest: invalid SHS rectangle must be RHS, and crossed trace cannot be ordered
+ok 31 - invalid SHS rectangle must be RHS, and crossed trace cannot be ordered
+  ---
+  duration_ms: 0.252129
+  type: 'test'
+  ...
+# Subtest: reversed Bezier loop rejected before material ordering
+ok 32 - reversed Bezier loop rejected before material ordering
+  ---
+  duration_ms: 0.37138
+  type: 'test'
+  ...
+# Subtest: arch cannot cross its own top edge
+ok 33 - arch cannot cross its own top edge
+  ---
+  duration_ms: 0.174424
+  type: 'test'
+  ...
+# Subtest: unsafe Layer IDs and duplicate IDs rejected
+ok 34 - unsafe Layer IDs and duplicate IDs rejected
+  ---
+  duration_ms: 0.3771
+  type: 'test'
+  ...
+# Subtest: entry point has unique IDs and relative local stylesheet/script paths
+ok 35 - entry point has unique IDs and relative local stylesheet/script paths
+  ---
+  duration_ms: 7.597059
+  type: 'test'
+  ...
+# Subtest: every module import resolves inside source package without CDN
+ok 36 - every module import resolves inside source package without CDN
+  ---
+  duration_ms: 11.608653
+  type: 'test'
+  ...
+# Subtest: example project references the supplied synthetic oblique image
+ok 37 - example project references the supplied synthetic oblique image
+  ---
+  duration_ms: 3.158716
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 262.968636

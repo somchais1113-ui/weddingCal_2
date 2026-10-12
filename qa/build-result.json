@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-10-12T08:29:02.274Z",
+  "status": "passed",
+  "files": [
+    ".nojekyll",
+    "examples/calibration-ground-truth.json",
+    "examples/default-project.json",
+    "examples/reference-front.png",
+    "examples/reference-oblique.png",
+    "examples/traced-project.json",
+    "index.html",
+    "legacy/QA_REPORT.md",
+    "legacy/README_DEPLOY_TH.md",
+    "legacy/index.html",
+    "src/app.js",
+    "src/calibration.js",
+    "src/fabric.js",
+    "src/geometry.js",
+    "src/legacy-engine.js",
+    "src/model.js",
+    "src/reference.js",
+    "src/renderer.js",
+    "src/steel.js",
+    "src/storage.js",
+    "src/style.css"
+  ]
+}

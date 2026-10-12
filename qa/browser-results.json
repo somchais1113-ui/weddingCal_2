@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-10-12T08:19:03.344Z",
+  "status": "blocked",
+  "checks": [],
+  "screenshots": [],
+  "errors": [
+    "Playwright Chromium is unavailable. Install dev dependencies and run npx playwright install chromium."
+  ],
+  "detail": "ENOENT: no such file or directory, access '/root/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome'"
+}

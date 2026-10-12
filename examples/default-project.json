@@ -1,0 +1,277 @@
+{
+  "version": 6,
+  "name": "ฉากแต่งงาน · White & Blue",
+  "width": 500,
+  "height": 270,
+  "layers": [
+    {
+      "id": "ab8e430f-828f-453f-b487-1dc501fa7b58",
+      "name": "ผ้าขาวด้านหลัง",
+      "shape": "straight",
+      "mode": "backdrop",
+      "band": "back",
+      "color": "#f0f3f7",
+      "opacity": 100,
+      "roughness": 0.85,
+      "transmission": 0,
+      "widthCm": 500,
+      "heightCm": 270,
+      "depth": 0,
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "fullness": 2,
+      "fabricWidth": 150,
+      "quantity": 1,
+      "unitPrice": 95,
+      "visible": true,
+      "locked": false,
+      "curve": "bezier",
+      "anchors": {
+        "top": [
+          {
+            "x": 0,
+            "y": 0,
+            "role": "hang"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "role": "hang"
+          }
+        ],
+        "bottom": [
+          {
+            "x": 0,
+            "y": 1,
+            "role": "release"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "role": "release"
+          }
+        ]
+      },
+      "sagCm": 60,
+      "direction": 1,
+      "repeats": 2,
+      "sweepCm": 50,
+      "spanCm": 300,
+      "swags": 2,
+      "method": "exact",
+      "allowance": {
+        "seamCm": 5,
+        "sideSeamCm": 1,
+        "shrinkage": 0,
+        "patternRepeatCm": 0,
+        "wastage": 5
+      },
+      "estimateMode": "panels"
+    },
+    {
+      "id": "ff215e11-5687-4111-9978-fa46e941efec",
+      "name": "ผ้าฟ้าหย่อนด้านบน",
+      "shape": "swag",
+      "mode": "backdrop",
+      "band": "front",
+      "color": "#bfd7eb",
+      "opacity": 100,
+      "roughness": 0.85,
+      "transmission": 0,
+      "widthCm": 480,
+      "heightCm": 55,
+      "depth": 0,
+      "x": 0,
+      "y": 4,
+      "z": 22,
+      "fullness": 1.7,
+      "fabricWidth": 150,
+      "quantity": 1,
+      "unitPrice": 95,
+      "visible": true,
+      "locked": false,
+      "curve": "bezier",
+      "anchors": {
+        "top": [
+          {
+            "x": 0,
+            "y": 0,
+            "role": "hang"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "role": "hang"
+          }
+        ],
+        "bottom": [
+          {
+            "x": 0,
+            "y": 1,
+            "role": "release"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "role": "release"
+          }
+        ]
+      },
+      "sagCm": 90,
+      "direction": 1,
+      "repeats": 2,
+      "sweepCm": 50,
+      "spanCm": 300,
+      "swags": 2,
+      "method": "exact",
+      "allowance": {
+        "seamCm": 5,
+        "sideSeamCm": 1,
+        "shrinkage": 0,
+        "patternRepeatCm": 0,
+        "wastage": 5
+      },
+      "estimateMode": "panels"
+    },
+    {
+      "id": "c959f6e4-b948-4c9a-90ad-f53fa01af2d3",
+      "name": "ผ้าข้างรวบ",
+      "shape": "side",
+      "mode": "backdrop",
+      "band": "front",
+      "color": "#bfd7eb",
+      "opacity": 100,
+      "roughness": 0.85,
+      "transmission": 0,
+      "widthCm": 95,
+      "heightCm": 260,
+      "depth": 0,
+      "x": -193,
+      "y": 10,
+      "z": 35,
+      "fullness": 2,
+      "fabricWidth": 150,
+      "quantity": 1,
+      "unitPrice": 95,
+      "visible": true,
+      "locked": false,
+      "curve": "bezier",
+      "anchors": {
+        "top": [
+          {
+            "x": 0,
+            "y": 0,
+            "role": "hang"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "role": "hang"
+          }
+        ],
+        "bottom": [
+          {
+            "x": 0,
+            "y": 1,
+            "role": "release"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "role": "release"
+          }
+        ]
+      },
+      "sagCm": 60,
+      "direction": 1,
+      "repeats": 2,
+      "sweepCm": 60,
+      "spanCm": 300,
+      "swags": 2,
+      "method": "exact",
+      "allowance": {
+        "seamCm": 5,
+        "sideSeamCm": 1,
+        "shrinkage": 0,
+        "patternRepeatCm": 0,
+        "wastage": 5
+      },
+      "estimateMode": "panels"
+    }
+  ],
+  "render": {
+    "look": "clean",
+    "person": true,
+    "personHeight": 170,
+    "floral": false,
+    "frame": true,
+    "quality": "auto"
+  },
+  "reference": {
+    "image": null,
+    "quad": [],
+    "calibrated": false,
+    "width": 500,
+    "height": 270
+  },
+  "steel": {
+    "kerf": 3,
+    "items": [
+      {
+        "id": "3b1b8691-4dea-48b3-93d1-0bdd71bbd986",
+        "name": "คาน",
+        "type": "RHS",
+        "w": 45,
+        "h": 75,
+        "t": 2.3,
+        "grade": "unspecified",
+        "length": 2500,
+        "quantity": 2,
+        "price": 470
+      },
+      {
+        "id": "5cb8d657-ca94-4753-9bc3-d4e856a98874",
+        "name": "เสา",
+        "type": "SHS",
+        "w": 50,
+        "h": 50,
+        "t": 2.3,
+        "grade": "unspecified",
+        "length": 2600,
+        "quantity": 3,
+        "price": 390
+      },
+      {
+        "id": "ae8e9f6c-aa5d-4085-ab1f-3df480479fae",
+        "name": "ค้ำยัน",
+        "type": "SHS",
+        "w": 40,
+        "h": 40,
+        "t": 2,
+        "grade": "unspecified",
+        "length": 3607,
+        "quantity": 4,
+        "price": 320
+      }
+    ],
+    "accessories": [
+      {
+        "id": "d9920302-7443-4832-9c0f-de584165db1a",
+        "name": "เพลทฐาน",
+        "quantity": 6,
+        "price": 90
+      },
+      {
+        "id": "15210d32-e3a0-4364-890c-44bdb11aacdd",
+        "name": "อุปกรณ์เชื่อมต่อ",
+        "quantity": 1,
+        "price": 0
+      }
+    ]
+  },
+  "increment": 0.5,
+  "laborCost": 0,
+  "otherCost": 0,
+  "gsm": 180
+}

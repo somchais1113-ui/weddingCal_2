@@ -1,0 +1,17 @@
+[
+  {
+    "file": "README_DEPLOY_TH.md",
+    "sha256": "90c4c5575a6021fc6bf7b5aa31fed3f8c5b4d2e70ea25ecfa2168f60286a2d4a",
+    "unchanged": true
+  },
+  {
+    "file": "QA_REPORT.md",
+    "sha256": "fced2a831b07ee52ad9d68059d55eba6de8ff63ae73cf5c5dc2163426100c115",
+    "unchanged": true
+  },
+  {
+    "file": "index.html",
+    "sha256": "806ddb796401d6fff44ad9c5ca15ca8f14f7b5838f4af945ccf132d8bda28767",
+    "unchanged": true
+  }
+]

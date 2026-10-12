@@ -1,0 +1,4 @@
+No browser screenshots are included in this delivery.
+Reason: Browser preflight was blocked by missing Chromium, and no supported control-browser skill is available in this managed environment.
+The synthetic images in examples/ are calibration fixtures, NOT screenshots of the running application.
+Run npm run test:browser on a supported machine to produce real screenshots and acceptance evidence.

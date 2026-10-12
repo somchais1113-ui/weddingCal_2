@@ -1,0 +1,27 @@
+{
+  "description": "Synthetic planar reference, exact known corners; not a real photo accuracy claim",
+  "widthCm": 500,
+  "heightCm": 270,
+  "quad": [
+    {
+      "x": 0.13,
+      "y": 0.09
+    },
+    {
+      "x": 0.86,
+      "y": 0.16
+    },
+    {
+      "x": 0.94,
+      "y": 0.91
+    },
+    {
+      "x": 0.05,
+      "y": 0.82
+    }
+  ],
+  "sourceWidth": 1400,
+  "sourceHeight": 756,
+  "imageWidth": 1600,
+  "imageHeight": 1000
+}
